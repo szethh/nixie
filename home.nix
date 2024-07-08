@@ -43,6 +43,14 @@
 
   programs.zsh = {
     enable = true;
+    enableCompletion = true;
+    autosuggestion.enable = true;
+
+    # for some reason these are flipped
+    initExtra = ''
+      bindkey '^[[Z'   complete-word       # tab          | complete
+      bindkey '^I'     autosuggest-accept  # shift + tab  | autosuggest
+    '';
   };
 
   programs.starship = {

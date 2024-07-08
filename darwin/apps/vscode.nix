@@ -55,7 +55,7 @@
     "editor.fontSize" = 12;
     "editor.formatOnSave" = true;
     "editor.defaultFormatter" = "esbenp.prettier-vscode";
-    "editor.fontFamily" = "'Fira Code', Menlo, Monaco, 'Courier New', monospace";
+    "editor.fontFamily" = "'FiraCode Nerd Font', Menlo, Monaco, 'Courier New', monospace";
     
     "workbench.colorTheme" = "Default Dark+";
     "workbench.iconTheme" = "material-icon-theme";
