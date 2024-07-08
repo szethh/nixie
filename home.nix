@@ -25,7 +25,8 @@
     bat
     nerdfonts # necessary for agnoster theme
     starship
-
+    yt-dlp
+    vscode
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -42,18 +43,6 @@
 
   programs.zsh = {
     enable = true;
-    oh-my-zsh = {
-      enable = true;
-      theme = "agnoster";
-      plugins = [
-        "git"
-        "docker"
-        "docker-compose"
-        "starship"
-        # zsh-syntax-highlighting
-	      # zsh-autosuggestions
-      ];
-    };
   };
 
   programs.starship = {
@@ -73,6 +62,8 @@
       # package.disabled = true;
     };
   };
+
+  programs.vscode = import ./darwin/apps/vscode.nix { inherit pkgs; };
 
   sops = {
     # does not seem to work
@@ -107,10 +98,6 @@
   #       ];
   #   };
   # };
-
-#   imports = [
-#     ./vscode.nix
-#   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.

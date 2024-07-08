@@ -28,6 +28,9 @@
   # The platform the configuration will be used on.
   nixpkgs.hostPlatform = "x86_64-darwin";
 
+  # vscode is not free software
+  nixpkgs.config.allowUnfree = true;
+
   users.users.szeth = {
     name = "szeth";
     home = "/Users/szeth";

@@ -43,7 +43,7 @@
     # nix darwin
     darwinConfigurations = {
       mackie = darwin.lib.darwinSystem {
-        system = "x86_64-darwin";
+        system = systemDarwin;
         modules = [
           ./darwin
           home-manager.darwinModules.home-manager

@@ -17,3 +17,6 @@ build-darwin:
 
 secrets:
     sops secrets/secrets.yaml
+
+gc:
+    nix-collect-garbage -d
