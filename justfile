@@ -20,3 +20,9 @@ secrets:
 
 gc:
     nix-collect-garbage -d
+
+# Bootstrap
+bootstrap host ip:
+    nix run github:numtide/nixos-anywhere -- \
+        root@{{ip}} \
+        --flake .#{{host}} \

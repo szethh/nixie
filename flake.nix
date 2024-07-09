@@ -20,8 +20,13 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
-  outputs = { nixpkgs, sops-nix, home-manager, darwin, ... }@inputs:
+  outputs = { nixpkgs, sops-nix, home-manager, darwin, disko, ... }@inputs:
   let
     systemLinux = "x86_64-linux";
     systemDarwin = "x86_64-darwin";
@@ -62,6 +67,15 @@
       };
     };
 
+    ## BOOTSTRAP ##
+    nixosConfigurations.htz = nixpkgs.lib.nixosSystem rec {
+      system = "x86_64-linux";
+      modules = [
+        disko.nixosModules.disko
+        ./hosts/htz/default.nix
+      ];
+    };
+
     # colmena stuff
     colmena = {
       meta = {
@@ -79,6 +93,8 @@
       };
 
       nixie = import ./hosts/nixie;
+
+      htz = import ./hosts/htz;
     };
   };
 }
