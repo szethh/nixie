@@ -4,7 +4,19 @@
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
+    ansible
+    bitwarden-cli
+    btop
+    dua
+    duf
+    docker-compose
+    ffmpeg
+    git
+    htop
+    jetbrains-mono  # fonts
+    ripgrep
     vim
+    zoxide
   ];
 
   # Necessary for using flakes on this system.
