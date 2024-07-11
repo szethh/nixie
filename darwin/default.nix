@@ -74,6 +74,20 @@
     ];
   };
 
+  # local = {
+  #   dock.enable = true;
+  #   dock.entries = [
+  #     { path = "/Applications/Vivaldi.app/"; }
+  #     { path = "/System/Applications/Terminal.app/"; }
+  #     { path = "/System/Applications/Visual Studio Code.app/"; }
+  #     {
+  #       path = "${config.users.users.szeth.home}/Downloads";
+  #       section = "others";
+  #       options = "--sort name --view grid --display stack";
+  #     }
+  #   ];
+  # };
+
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
   # nix.package = pkgs.nix;
@@ -99,6 +113,27 @@
     
     LaunchServices.LSQuarantine = false; # disables "Are you sure?" for new apps
     loginwindow.GuestEnabled = false;
+
+
+    ## DOCK SETTINGS ##
+    dock.persistent-apps = [
+      "/Applications/Launchpad.app"
+      "/Applications/Vivaldi.app"
+      "/Applications/Firefox.app"
+      "/System/Applications/Utilities/Terminal.app"
+      "/Applications/Visual Studio Code.app"
+    ];
+
+    dock.persistent-others = [
+      "~/Downloads"
+    ];
+
+    dock.show-recents = false;
+    # hot corners
+    dock.wvous-tl-corner = 2;  # mission control
+    dock.wvous-bl-corner = 1;  # disabled
+    dock.wvous-tr-corner = 1;  # disabled
+    dock.wvous-br-corner = 10; # put display to sleep
   };
 
   system.defaults.CustomUserPreferences = {

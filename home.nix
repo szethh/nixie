@@ -70,7 +70,11 @@
     };
   };
 
-  programs.vscode = import ./darwin/apps/vscode.nix { inherit pkgs; };
+  programs.git.enable = true;
+  programs.vscode = import ./darwin/apps/vscode.nix { inherit pkgs inputs; };
+
+  # this does not work yet
+  programs.firefox = import ./darwin/apps/firefox.nix { inherit pkgs inputs; };
 
   sops = {
     # does not seem to work
@@ -89,22 +93,6 @@
       # path = "%r/test.txt"; 
     };
   };
-
-  # this does not work yet
-  # programs.firefox = {
-  #   enable = true;
-  #   profiles.default = {
-  #       isDefault = true;
-
-  #       extensions = with inputs.firefox-addons.packages."x86_64-darwin"; [
-  #           ublock-origin
-  #           # multi-account-containers
-  #           consent-o-matic
-  #           sponsorblock
-  #           translate-web-pages
-  #       ];
-  #   };
-  # };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.

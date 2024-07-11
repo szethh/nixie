@@ -57,6 +57,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.szeth = import ./home.nix;
+            home-manager.backupFileExtension = "nix.bak";
 
             # Optionally, use home-manager.extraSpecialArgs to pass
             # arguments to home.nix
