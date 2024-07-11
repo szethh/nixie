@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 {
   # List packages installed in system profile. To search by name, run:
@@ -104,7 +104,7 @@
     NSGlobalDomain = {
       AppleInterfaceStyle = "Dark";
       AppleShowAllExtensions = true;
-      AppleShowAllFiles = true;
+      AppleShowAllFiles = false;  # tons of hidden files, it's too cluttered
       NSDocumentSaveNewDocumentsToCloud = false;
       NSNavPanelExpandedStateForSaveMode = true;
       NSNavPanelExpandedStateForSaveMode2 = true;
@@ -117,7 +117,7 @@
 
     ## DOCK SETTINGS ##
     dock.persistent-apps = [
-      "/Applications/Launchpad.app"
+      "/System/Applications/Launchpad.app"
       "/Applications/Vivaldi.app"
       "/Applications/Firefox.app"
       "/System/Applications/Utilities/Terminal.app"
@@ -125,7 +125,7 @@
     ];
 
     dock.persistent-others = [
-      "~/Downloads"
+      "${config.users.users.szeth.home}/Downloads"
     ];
 
     dock.show-recents = false;

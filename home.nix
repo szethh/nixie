@@ -70,7 +70,20 @@
     };
   };
 
-  programs.git.enable = true;
+  programs.git = {
+    enable = true;
+    userEmail = "33635766+szethh@users.noreply.github.com";
+    userName = "szethh";
+    extraConfig = {
+      init = {
+        defaultBranch = "main";
+      };
+    };
+  };
+
+  programs.bat.enable = true;
+  programs.bat.config.theme = "Nord";
+
   programs.vscode = import ./darwin/apps/vscode.nix { inherit pkgs inputs; };
 
   # this does not work yet
