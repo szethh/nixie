@@ -2,8 +2,7 @@
 
 with lib;
 
-let
-  cfg = config.services.argoWeb;
+let cfg = config.services.argoWeb;
 in {
   options.services.argoWeb = {
     enable = mkEnableOption "Cloudflare Argo Tunnel";
@@ -33,10 +32,12 @@ in {
     systemd.services.argoWeb = {
       description = "Cloudflare Argo Tunnel";
       after = [ "network-online.target" ];
-      wants = [ "network-online.target" ]; # systemd-networkd-wait-online.service
+      wants =
+        [ "network-online.target" ]; # systemd-networkd-wait-online.service
       wantedBy = [ "multi-user.target" ];
       serviceConfig = {
-        ExecStart = "${pkgs.runtimeShell} -c '${cfg.package}/bin/cloudflared tunnel --no-autoupdate run --token $(cat ${cfg.tokenPath})'";
+        ExecStart =
+          "${pkgs.runtimeShell} -c '${cfg.package}/bin/cloudflared tunnel --no-autoupdate run --token $(cat ${cfg.tokenPath})'";
         Type = "simple";
         User = "argoWeb";
         Group = "argoWeb";

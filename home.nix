@@ -10,9 +10,7 @@
   # release notes.
   home.stateVersion = "24.05"; # Please read the comment before changing.
 
-  imports = [
-    inputs.sops-nix.homeManagerModules.sops
-  ];
+  imports = [ inputs.sops-nix.homeManagerModules.sops ];
 
   home.homeDirectory = "/Users/szeth";
 
@@ -58,11 +56,9 @@
     settings = {
       add_newline = false;
 
-      character.disabled = false;  # this is a default but it's to be explicit
+      character.disabled = false; # this is a default but it's to be explicit
 
-      cmd_duration = {
-        min_time = 2000;
-      };
+      cmd_duration = { min_time = 2000; };
 
       git_branch.symbol = "🍣 ";
 
@@ -74,11 +70,7 @@
     enable = true;
     userEmail = "33635766+szethh@users.noreply.github.com";
     userName = "szethh";
-    extraConfig = {
-      init = {
-        defaultBranch = "main";
-      };
-    };
+    extraConfig = { init = { defaultBranch = "main"; }; };
   };
 
   programs.bat.enable = true;
@@ -91,7 +83,8 @@
 
   sops = {
     # does not seem to work
-    age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt"; # must have no password!
+    age.keyFile =
+      "${config.home.homeDirectory}/.config/sops/age/keys.txt"; # must have no password!
     # It's also possible to use a ssh key, but only when it has no password:
     age.sshKeyPaths = [ "${config.home.homeDirectory}/.ssh/id_ed25519" ];
     age.generateKey = true;

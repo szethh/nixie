@@ -4,7 +4,9 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # darwin stuff
-    darwin.url = "github:LnL7/nix-darwin";
+    # darwin.url = "github:LnL7/nix-darwin";
+    darwin.url =
+      "git+file:///Users/szeth/dev/nix-darwin?ref=dock-persistent-others";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     home-manager = {
@@ -28,75 +30,68 @@
     };
   };
   outputs = { nixpkgs, sops-nix, home-manager, darwin, disko, ... }@inputs:
-  let
-    systemLinux = "x86_64-linux";
-    systemDarwin = "x86_64-darwin";
-    pkgsLinux = import nixpkgs { system = systemLinux; overlays = [ (import ./packages/caddy_plugins.nix) ]; };
-    pkgsDarwin = import nixpkgs { system = systemDarwin; };
-  in
-  {
-    # nix develop
-    devShells.${systemDarwin}.default = pkgsDarwin.mkShell {
-      buildInputs = with pkgsDarwin; [ colmena sops ];
-
-      # for some reason sops tries to look for the key in ~/Application Support/sops/age/keys.txt
-      # https://github.com/getsops/sops/issues/983
-      shellHook = ''
-        export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
-      '';
-    };
-
-    # nix darwin
-    darwinConfigurations = {
-      mackie = darwin.lib.darwinSystem {
-        system = systemDarwin;
-        modules = [
-          ./darwin
-          home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.szeth = import ./home.nix;
-            home-manager.backupFileExtension = "nix.bak";
-
-            # Optionally, use home-manager.extraSpecialArgs to pass
-            # arguments to home.nix
-            home-manager.extraSpecialArgs = {
-              inherit inputs;
-            };
-          }
-        ];
+    let
+      systemLinux = "x86_64-linux";
+      systemDarwin = "x86_64-darwin";
+      pkgsLinux = import nixpkgs {
+        system = systemLinux;
+        overlays = [ (import ./packages/caddy_plugins.nix) ];
       };
-    };
+      pkgsDarwin = import nixpkgs { system = systemDarwin; };
+    in {
+      # nix develop
+      devShells.${systemDarwin}.default = pkgsDarwin.mkShell {
+        buildInputs = with pkgsDarwin; [ colmena sops ];
 
-    ## BOOTSTRAP ##
-    nixosConfigurations.htz = nixpkgs.lib.nixosSystem rec {
-      system = "x86_64-linux";
-      modules = [
-        disko.nixosModules.disko
-        ./hosts/htz/default.nix
-      ];
-    };
-
-    # colmena stuff
-    colmena = {
-      meta = {
-        nixpkgs = pkgsLinux;
-
-        # specialArgs = {
-        #   inherit inputs;
-        # };
+        # for some reason sops tries to look for the key in ~/Application Support/sops/age/keys.txt
+        # https://github.com/getsops/sops/issues/983
+        shellHook = ''
+          export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
+        '';
       };
 
-      defaults = {
-        imports = [
-          sops-nix.nixosModules.sops
-        ];
+      # nix darwin
+      darwinConfigurations = {
+        mackie = darwin.lib.darwinSystem {
+          system = systemDarwin;
+          modules = [
+            ./darwin
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.szeth = import ./home.nix;
+              home-manager.backupFileExtension = "nix.bak";
+
+              # Optionally, use home-manager.extraSpecialArgs to pass
+              # arguments to home.nix
+              home-manager.extraSpecialArgs = { inherit inputs; };
+            }
+          ];
+        };
       };
 
-      nixie = import ./hosts/nixie;
+      ## BOOTSTRAP ##
+      nixosConfigurations.htz = nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
+        modules = [ disko.nixosModules.disko ./hosts/htz/default.nix ];
+      };
 
-      htz = import ./hosts/htz;
+      # colmena stuff
+      colmena = {
+        meta = {
+          nixpkgs = pkgsLinux;
+
+          # specialArgs = {
+          #   inherit inputs;
+          # };
+        };
+
+        defaults = { imports = [ sops-nix.nixosModules.sops ]; };
+
+        nixie = import ./hosts/nixie;
+
+        htz = import ./hosts/htz;
+      };
     };
-  };
 }

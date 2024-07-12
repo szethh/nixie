@@ -13,7 +13,8 @@
     ffmpeg
     git
     htop
-    jetbrains-mono  # fonts
+    jetbrains-mono # fonts
+    nixfmt
     ripgrep
     vim
     zoxide
@@ -30,6 +31,7 @@
   homebrew = {
     enable = true;
     onActivation.upgrade = true;
+
     casks = [
       "audacity"
       "balenaetcher"
@@ -72,6 +74,12 @@
       "vorta"
       "waterfox"
     ];
+
+    masApps = {
+      "Infuse" = 1136220934;
+      "eduVPN" = 1317704208;
+      "Tailscale" = 1475387142;
+    };
   };
 
   # local = {
@@ -104,16 +112,15 @@
     NSGlobalDomain = {
       AppleInterfaceStyle = "Dark";
       AppleShowAllExtensions = true;
-      AppleShowAllFiles = false;  # tons of hidden files, it's too cluttered
+      AppleShowAllFiles = false; # tons of hidden files, it's too cluttered
       NSDocumentSaveNewDocumentsToCloud = false;
       NSNavPanelExpandedStateForSaveMode = true;
       NSNavPanelExpandedStateForSaveMode2 = true;
       "com.apple.mouse.tapBehavior" = 1;
     };
-    
+
     LaunchServices.LSQuarantine = false; # disables "Are you sure?" for new apps
     loginwindow.GuestEnabled = false;
-
 
     ## DOCK SETTINGS ##
     dock.persistent-apps = [
@@ -125,14 +132,30 @@
     ];
 
     dock.persistent-others = [
-      "${config.users.users.szeth.home}/Downloads"
+      # "${config.users.users.szeth.home}/Downloads"
+      # we want 
+      {
+        "tile-data" = {
+          arrangement =
+            3; # 1 = name, 2 = date added, 3 = date modified, 4 = Date Created, 5 = kind; default is 1
+          displayas = 0; # 0 = stack, 1 = folder; default is 0
+          "file-data" = {
+            "_CFURLString" =
+              "file://${config.users.users.szeth.home}/Downloads";
+            "_CFURLStringType" = 15;
+          };
+          "file-label" = "Downloads"; # default is the name of the directory
+          showas = 1; # 1 = fan, 2 = grid, 3 = list, 4 = automatic; default is 4
+        };
+        "tile-type" = "directory-tile"; # either file-tile or directory-tile
+      }
     ];
 
     dock.show-recents = false;
     # hot corners
-    dock.wvous-tl-corner = 2;  # mission control
-    dock.wvous-bl-corner = 1;  # disabled
-    dock.wvous-tr-corner = 1;  # disabled
+    dock.wvous-tl-corner = 2; # mission control
+    dock.wvous-bl-corner = 1; # disabled
+    dock.wvous-tr-corner = 1; # disabled
     dock.wvous-br-corner = 10; # put display to sleep
   };
 
@@ -148,7 +171,7 @@
       FXDefaultSearchScope = "SCcf";
       "FK_SidebarWidth" = 128;
       NewWindowTarget = "PfHm";
-      NewWindowTargetPath = "file://$\{HOME\}";
+      NewWindowTargetPath = "file://\${HOME}";
       AppleShowAllExtensions = true;
       FXEnableExtensionChangeWarning = false;
       ShowStatusBar = true;
@@ -171,10 +194,8 @@
     #   UniversalSearchEnabled = false;
     #   SuppressSearchSuggestions = true;
     # };
-    "com.apple.AdLib" = {
-      allowApplePersonalizedAdvertising = false;
-    };
-    
+    "com.apple.AdLib" = { allowApplePersonalizedAdvertising = false; };
+
     "com.apple.SoftwareUpdate" = {
       AutomaticCheckEnabled = true;
       # Check for software updates daily, not just once per week
@@ -193,7 +214,7 @@
   };
 
   # Create /etc/zshrc that loads the nix-darwin environment.
-  programs.zsh.enable = true;  # default shell on catalina
+  programs.zsh.enable = true; # default shell on catalina
   # programs.fish.enable = true;
 
   # Set Git commit hash for darwin-version.

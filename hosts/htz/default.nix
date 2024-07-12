@@ -23,11 +23,7 @@
     buildOnTarget = true;
 
     # https://github.com/zhaofengli/colmena/issues/153
-    keys = {
-      age = {
-        keyFile = "/Users/szeth/.config/sops/age/keys.txt";
-      };
-    };
+    keys = { age = { keyFile = "/Users/szeth/.config/sops/age/keys.txt"; }; };
   };
 
   programs.zsh.enable = true;
@@ -77,15 +73,16 @@
 
     networkConfig.IPv6AcceptRA = "no";
   };
-  boot.initrd.systemd.network.networks."10-uplink" = config.systemd.network.networks."10-uplink";
+  boot.initrd.systemd.network.networks."10-uplink" =
+    config.systemd.network.networks."10-uplink";
   networking.nameservers = [ "1.1.1.1" ];
   # networking.firewall.logRefusedConnections = false;
 
   users.users.root.initialHashedPassword = "*";
 
   users.users.root.openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDgnIn7uXqucLjBn3fcJtRoeTVtpAIs/vFub8ULiud1f szeth@mackie.local"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDgnIn7uXqucLjBn3fcJtRoeTVtpAIs/vFub8ULiud1f szeth@mackie.local"
   ];
 
-  services.openssh.enable = true;         
+  services.openssh.enable = true;
 }

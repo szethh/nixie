@@ -1,5 +1,4 @@
-{ pkgs, inputs, ... }:
-{
+{ pkgs, inputs, ... }: {
   enable = true;
   package = null;
 
@@ -23,7 +22,7 @@
       # home page
       browser.newtabpage.activity-stream.showSearch = false;
       browser.newtabpage.activity-stream.showSponsoredTopSites = false;
-      
+
       # search
       browser.search.suggest.enabled = false;
       browser.search.separatePrivateDefault.ui.enabled = true;
@@ -41,19 +40,27 @@
 
     search.engines = {
       "Bing".metaData.hidden = true;
-      "Google".metaData.alias = "!g"; # builtin engines only support specifying one additional alias
+      "Google".metaData.alias =
+        "!g"; # builtin engines only support specifying one additional alias
       "DuckDuckGo".metaData.alias = "!d";
 
       "Nix Packages" = {
         urls = [{
           template = "https://search.nixos.org/packages";
           params = [
-            { name = "type"; value = "packages"; }
-            { name = "query"; value = "{searchTerms}"; }
+            {
+              name = "type";
+              value = "packages";
+            }
+            {
+              name = "query";
+              value = "{searchTerms}";
+            }
           ];
         }];
 
-        icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+        icon =
+          "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
         definedAliases = [ "!np" ];
       };
     };

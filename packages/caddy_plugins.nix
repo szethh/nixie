@@ -37,7 +37,8 @@
 _final: prev:
 
 let
-  plugins = [ "github.com/caddy-dns/cloudflare" "github.com/caddy-dns/acmedns" ];
+  plugins =
+    [ "github.com/caddy-dns/cloudflare" "github.com/caddy-dns/acmedns" ];
   goImports =
     prev.lib.flip prev.lib.concatMapStrings plugins (pkg: "   _ \"${pkg}\"\n");
   goGets = prev.lib.flip prev.lib.concatMapStrings plugins
