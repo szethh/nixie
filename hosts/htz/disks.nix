@@ -15,14 +15,14 @@
         ESP = {
           # start = "1M";
           size = "512M";
-          type = "EF00";
-          content = {
-            type = "mdraid";
-            name = "boot";
-            # type = "filesystem";
-            # format = "vfat";
-            # mountpoint = "/boot";
-          };
+          type = "EF02";
+          # content = {
+          #   # type = "mdraid";
+          #   # name = "boot";
+          #   type = "filesystem";
+          #   format = "vfat";
+          #   mountpoint = "/boot";
+          # };
           priority = 1;
         };
         nixos = {
@@ -38,16 +38,16 @@
     };
   });
   mdadm = {
-    boot = {
-      type = "mdadm";
-      level = 1;
-      metadata = "1.0";
-      content = {
-        type = "filesystem";
-        format = "vfat";
-        mountpoint = "/boot";
-      };
-    };
+    # boot = {
+    #   type = "mdadm";
+    #   level = 1;
+    #   metadata = "1.0";
+    #   content = {
+    #     type = "filesystem";
+    #     format = "vfat";
+    #     mountpoint = "/boot";
+    #   };
+    # };
     nixos = {
       type = "mdadm";
       level = 1;

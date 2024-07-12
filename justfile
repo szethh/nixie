@@ -23,6 +23,6 @@ gc:
 
 # Bootstrap
 bootstrap host ip:
-    nix run github:numtide/nixos-anywhere -- \
+    nix run github:johanot/nixos-anywhere?ref=hetzner -- \
         root@{{ip}} \
         --flake .#{{host}} \

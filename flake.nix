@@ -25,7 +25,8 @@
     };
 
     disko = {
-      url = "github:nix-community/disko";
+      # url = "github:nix-community/disko";
+      url = "git+file:///Users/szeth/dev/disko?ref=fix-mdadm-symlink";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -74,7 +75,7 @@
       ## BOOTSTRAP ##
       nixosConfigurations.htz = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
-        modules = [ disko.nixosModules.disko ./hosts/htz/default.nix ];
+        modules = [ disko.nixosModules.disko ./hosts/htz/bootstrap.nix ];
       };
 
       # colmena stuff

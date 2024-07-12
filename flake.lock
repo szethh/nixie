@@ -28,17 +28,18 @@
         ]
       },
       "locked": {
-        "lastModified": 1720661479,
-        "narHash": "sha256-nsGgA14vVn0GGiqEfomtVgviRJCuSR3UEopfP8ixW1I=",
-        "owner": "nix-community",
-        "repo": "disko",
-        "rev": "786965e1b1ed3fd2018d78399984f461e2a44689",
-        "type": "github"
+        "lastModified": 1720804120,
+        "narHash": "sha256-OsoojHWPmf0HiQyY7Ian1ZlMnI+4D0mFyeM7i6n9FHY=",
+        "ref": "fix-mdadm-symlink",
+        "rev": "770ff74e9bd45f725d603f64b9023db31e06bdcf",
+        "revCount": 922,
+        "type": "git",
+        "url": "file:///Users/szeth/dev/disko"
       },
       "original": {
-        "owner": "nix-community",
-        "repo": "disko",
-        "type": "github"
+        "ref": "fix-mdadm-symlink",
+        "type": "git",
+        "url": "file:///Users/szeth/dev/disko"
       }
     },
     "firefox-addons": {
