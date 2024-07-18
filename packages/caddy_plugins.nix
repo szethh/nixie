@@ -56,7 +56,7 @@ let
   '';
 
 in {
-  caddy-cloudflare = prev.buildGo123Module {
+  caddy-cloudflare = prev.buildGo122Module {
     pname = "caddy-cloudflare";
     version = prev.caddy.version;
     runVend = true;
@@ -67,7 +67,7 @@ in {
 
     # so first you try it with a fake hash, and it will fail and tell you the real hash
     # vendorHash = "sha256:${prev.lib.fakeSha256}";
-    vendorHash = "sha256-2GY4wLuDh94UFJ7yYCN8baZ5g2Ud1DQ+MuuxeakZEdE=";
+    vendorHash = "sha256-tPEsp7rya0rzaKZW2acJ5Sf7OwbswaIEe9GJJmL4JG0=";
 
     overrideModAttrs = (_: {
       preBuild = ''

@@ -145,8 +145,13 @@
       '';
 
       "ntfy.bnuuy.net".extraConfig = ''
-        reverse_proxy http://kite:8044
+        reverse_proxy http://htz:8044
       '';
+
+      # this is the internal domain instead
+      # "git.bnuuy.net".extraConfig = ''
+      #   reverse_proxy http://htz:3000
+      # '';
 
       "hci.bnuuy.net".extraConfig = ''
         reverse_proxy http://kite:8020

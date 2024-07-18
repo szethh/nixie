@@ -88,7 +88,9 @@
           # };
         };
 
-        defaults = { imports = [ sops-nix.nixosModules.sops ]; };
+        defaults = {
+          imports = [ sops-nix.nixosModules.sops disko.nixosModules.disko ];
+        };
 
         nixie = import ./hosts/nixie;
 

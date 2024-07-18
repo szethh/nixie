@@ -1,6 +1,10 @@
 { config, pkgs, ... }:
 
 {
+  imports = [ ./shell.nix ];
+
+  environment.systemPackages = with pkgs; [ bat starship docker ];
+
   users.users.szeth = {
     isNormalUser = true;
     uid = 1000;

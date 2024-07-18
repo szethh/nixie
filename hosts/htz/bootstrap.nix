@@ -1,4 +1,4 @@
-{ modulesPath, lib, name, pkgs, config, ... }:
+{ modulesPath, lib, name, pkgs, config, disko, ... }:
 
 {
   imports = [
@@ -17,8 +17,17 @@
   # Specify the devices to install the boot loader to.
   boot.loader.grub = {
     enable = true;
-    devices = [ "/dev/sda1" "/dev/sdb1" ];
-    efiSupport = true;
+    # for some reason using just /sda or /sdb does not work with efiSupport = false
+    # hetzner is legacy bios, so we need to set it to false
+    # and also it seems that we need to leave it empty
+    # i think disko is doing this for us
+    # but if we don't specify devices or mirroredBoots it doesn't work
+    # and if we do specify them we fail an assertion since they are duplicated (added by disko)
+    devices = [
+      #   "/dev/disk/by-partlabel/disk-_dev_sda"
+      #   "/dev/disk/by-partlabel/disk-_dev_sdb"
+    ];
+    copyKernels = true;
   };
 
   boot.initrd.availableKernelModules = [
