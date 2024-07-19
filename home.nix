@@ -10,7 +10,7 @@
   # release notes.
   home.stateVersion = "24.05"; # Please read the comment before changing.
 
-  imports = [ inputs.sops-nix.homeManagerModules.sops ./common/shell.nix ];
+  imports = [ inputs.sops-nix.homeManagerModules.sops ];
 
   home.homeDirectory = "/Users/szeth";
 
@@ -37,6 +37,11 @@
   ];
 
   programs.zoxide.enable = true;
+
+  programs = {
+    starship = let shellConfig = import ./common/shell.nix { inherit pkgs; };
+    in shellConfig.programs.starship;
+  };
 
   programs.zsh = {
     enable = true;

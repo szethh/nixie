@@ -159,6 +159,9 @@
     dock.wvous-br-corner = 10; # put display to sleep
   };
 
+  # defaults domains to print all domains
+  # defaults read com.apple.NAME > macos-defaults/com.apple.NAME # to get the defaults
+  # check out macos-defaults.com for more info
   system.defaults.CustomUserPreferences = {
 
     "com.apple.finder" = {
@@ -176,6 +179,8 @@
       FXEnableExtensionChangeWarning = false;
       ShowStatusBar = true;
       ShowPathbar = true;
+      FXPreferredViewStyle = "Nlsv";
+      NSDocumentSaveNewDocumentsToCloud = false;
     };
     "com.apple.dock" = {
       autohide = false;
