@@ -2,10 +2,10 @@
 
 {
   imports = [
-    # not sure what this does
     ./bootstrap.nix
     ../../common/szeth.nix
     ../../services/quartz-service.nix
+    ../../services/stirling-pdf.nix
   ];
 
   sops.defaultSopsFile = ../../secrets/secrets.yaml;
@@ -74,6 +74,10 @@
     };
   };
 
+  # this is not working yet
+  # environment.systemPackages = with pkgs;
+  #   [ (pkgs.callPackage ../../packages/quartz.nix { }) ];
+
   services.ntfy-sh = {
     enable = true;
     settings = {
@@ -91,6 +95,11 @@
   #   directory = "/home/szeth/quartz/content";
   #   output = "/home/szeth/quartz/public";
   # };
+
+  services.stirling-pdf = {
+    enable = true;
+    directory = "/var/lib/stirling-pdf";
+  };
 
   services.uptime-kuma = {
     enable = true;
