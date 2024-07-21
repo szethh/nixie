@@ -105,4 +105,6 @@ in {
       };
     };
   };
+
+  meta = { maintainers = with maintainers; [ szethh ]; };
 }
