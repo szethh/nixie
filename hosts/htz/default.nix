@@ -9,8 +9,6 @@
     ../../services/stirling-pdf.nix
   ];
 
-  sops.defaultSopsFile = ../../secrets/secrets.yaml;
-  sops.age.keyFile = "${config.deployment.keys.age.destDir}/age";
   sops.secrets = { GITEA_PASSWORD = { owner = "gitea"; }; };
 
   deployment = {

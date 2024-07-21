@@ -3,7 +3,7 @@
 {
   imports = [ ./shell.nix ];
 
-  environment.systemPackages = with pkgs; [ bat starship docker ];
+  environment.systemPackages = with pkgs; [ docker ];
 
   users.users.szeth = {
     isNormalUser = true;

@@ -8,14 +8,10 @@
       ../../common/nixos-config.nix
     ];
 
-  sops.defaultSopsFile = ../../secrets/secrets.yaml;
-  sops.age.keyFile = "${config.deployment.keys.age.destDir}/age";
   sops.secrets = {
     CLOUDFLARED_TOKEN = { owner = "argoWeb"; };
     CF_DNS_TOKEN = { owner = "argoWeb"; };
   };
-
-  system.stateVersion = "24.05";
 
   deployment = {
     targetHost = "nixie"; # "104.248.200.219";
@@ -40,11 +36,7 @@
   time.timeZone = "Europe/Amsterdam";
 
   users = {
-    mutableUsers = false; # Disable passwd
-
     users = {
-      root.hashedPassword = "*";
-
       argoWeb = {
         home = "/var/lib/argoWeb";
         createHome = true;

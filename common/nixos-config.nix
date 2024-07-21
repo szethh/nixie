@@ -1,11 +1,20 @@
 { config, pkgs, ... }:
 
 {
+  imports = [ ./shell.nix ];
+
   time.timeZone = "Europe/Amsterdam";
+  system.stateVersion = "24.05";
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  # this helps for systems with low disk space
   boot.tmp.useTmpfs = true;
+
+  networking.nameservers = [ "1.1.1.1" ];
+
+  sops.defaultSopsFile = ../../secrets/secrets.yaml;
+  sops.age.keyFile = "${config.deployment.keys.age.destDir}/age";
 
   system.autoUpgrade = {
     enable = true;
@@ -41,4 +50,14 @@
       timerConfig.OnCalendar = "weekly UTC";
     };
   };
+
+  users.mutableUsers = false;
+  # initialHashedPassword or hashedPassword?
+  users.users.root.initialHashedPassword = "*";
+  users.users.root.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDgnIn7uXqucLjBn3fcJtRoeTVtpAIs/vFub8ULiud1f szeth@mackie.local"
+  ];
+
+  services.openssh.enable = true;
+  services.tailscale.enable = true;
 }

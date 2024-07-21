@@ -26,3 +26,7 @@ bootstrap host ip:
     nix run github:johanot/nixos-anywhere?ref=hetzner -- \
         root@{{ip}} \
         --flake .#{{host}} \
+
+# this can only be run on a nixos host
+vm host:
+    nix run github:nix-community/nixos-generators -- --format proxmox --configuration hosts/{{host}}/proxmox.nix

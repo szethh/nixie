@@ -1,4 +1,7 @@
 { pkgs, ... }: {
+
+  environment.systemPackages = with pkgs; [ bat starship docker ];
+
   programs.starship = {
     enable = true;
     # Configuration written to ~/.config/starship.toml

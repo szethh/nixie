@@ -47,6 +47,7 @@
         # for some reason sops tries to look for the key in ~/Application Support/sops/age/keys.txt
         # https://github.com/getsops/sops/issues/983
         shellHook = ''
+          $SHELL
           export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
         '';
       };
@@ -95,6 +96,8 @@
         nixie = import ./hosts/nixie;
 
         htz = import ./hosts/htz;
+
+        nixvm = import ./hosts/nixvm;
       };
     };
 }
