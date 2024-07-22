@@ -30,11 +30,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = { nixpkgs, sops-nix, home-manager, darwin, disko, ... }@inputs:
+  outputs = { nixpkgs, nixpkgs-unstable, sops-nix, home-manager, darwin, disko
+    , ... }@inputs:
     let
       systemLinux = "x86_64-linux";
       systemDarwin = "x86_64-darwin";
       pkgsLinux = import nixpkgs {
+        system = systemLinux;
+        overlays = [ (import ./packages/caddy_plugins.nix) ];
+      };
+      pkgsLinuxUnstable = import nixpkgs-unstable {
         system = systemLinux;
         overlays = [ (import ./packages/caddy_plugins.nix) ];
       };
@@ -84,6 +89,8 @@
         meta = {
           nixpkgs = pkgsLinux;
 
+          nodeNixpkgs = { nixvm = pkgsLinuxUnstable; };
+
           # specialArgs = {
           #   inherit inputs;
           # };
@@ -98,6 +105,7 @@
         htz = import ./hosts/htz;
 
         nixvm = import ./hosts/nixvm;
+        # (inputs // { pkgs-unstable = pkgsLinuxUnstable; });
       };
     };
 }
