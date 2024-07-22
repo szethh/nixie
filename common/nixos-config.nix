@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ./shell.nix ];
+  imports = [ ./szeth.nix ];
 
   time.timeZone = "Europe/Amsterdam";
   system.stateVersion = "24.05";
@@ -13,7 +13,7 @@
 
   networking.nameservers = [ "1.1.1.1" ];
 
-  sops.defaultSopsFile = ../../secrets/secrets.yaml;
+  sops.defaultSopsFile = ../secrets/secrets.yaml;
   sops.age.keyFile = "${config.deployment.keys.age.destDir}/age";
 
   system.autoUpgrade = {

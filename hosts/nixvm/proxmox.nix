@@ -4,6 +4,7 @@
   imports = [ ../../common/nixos-config.nix ];
 
   # UNCOMMENT ME WHEN GENERATING THE VM IMAGE
+  # followed this guide https://nixos.wiki/wiki/Proxmox_Virtual_Environment
   # nix run github:nix-community/nixos-generators -- --format proxmox --configuration hosts/{{host}}/proxmox.nix
   #   proxmox.qemuConf = {
   #     diskSize = lid.mkForce "41160";

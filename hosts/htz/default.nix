@@ -3,7 +3,6 @@
 {
   imports = [
     ./bootstrap.nix
-    ../../common/szeth.nix
     ../../common/nixos-config.nix
     ../../services/quartz-service.nix
     ../../services/stirling-pdf.nix
