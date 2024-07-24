@@ -14,7 +14,7 @@
     git
     htop
     jetbrains-mono # fonts
-    nixfmt
+    nixfmt-rfc-style
     ripgrep
     vim
     zoxide
@@ -68,6 +68,7 @@
       "spotify"
       "syncthing"
       "textmate"
+      "thunderbird"
       "tor-browser"
       "visual-studio-code"
       "vlc"
