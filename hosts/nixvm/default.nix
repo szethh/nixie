@@ -95,4 +95,13 @@
 
   # TODO: borg/borgmatic
   # TODO: adguardhome
+  services.adguardhome = {
+    enable = true;
+    port = 3765;
+    openFirewall = true;
+    # gotta have this defined for the config to be generated
+    settings = {
+
+    };
+  };
 }
