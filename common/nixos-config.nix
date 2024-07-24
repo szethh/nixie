@@ -6,7 +6,10 @@
   time.timeZone = "Europe/Amsterdam";
   system.stateVersion = "24.05";
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # this helps for systems with low disk space
   boot.tmp.useTmpfs = true;

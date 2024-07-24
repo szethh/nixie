@@ -23,7 +23,10 @@
   # Necessary for using flakes on this system.
   nix = {
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       warn-dirty = false;
     };
   };
@@ -137,12 +140,10 @@
       # we want 
       {
         "tile-data" = {
-          arrangement =
-            3; # 1 = name, 2 = date added, 3 = date modified, 4 = Date Created, 5 = kind; default is 1
+          arrangement = 3; # 1 = name, 2 = date added, 3 = date modified, 4 = Date Created, 5 = kind; default is 1
           displayas = 0; # 0 = stack, 1 = folder; default is 0
           "file-data" = {
-            "_CFURLString" =
-              "file://${config.users.users.szeth.home}/Downloads";
+            "_CFURLString" = "file://${config.users.users.szeth.home}/Downloads";
             "_CFURLStringType" = 15;
           };
           "file-label" = "Downloads"; # default is the name of the directory
@@ -200,7 +201,9 @@
     #   UniversalSearchEnabled = false;
     #   SuppressSearchSuggestions = true;
     # };
-    "com.apple.AdLib" = { allowApplePersonalizedAdvertising = false; };
+    "com.apple.AdLib" = {
+      allowApplePersonalizedAdvertising = false;
+    };
 
     "com.apple.SoftwareUpdate" = {
       AutomaticCheckEnabled = true;

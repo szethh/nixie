@@ -1,6 +1,11 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
 
-  environment.systemPackages = with pkgs; [ bat starship docker ];
+  environment.systemPackages = with pkgs; [
+    bat
+    starship
+    docker
+  ];
 
   programs.starship = {
     enable = true;
@@ -10,7 +15,9 @@
 
       character.disabled = false; # this is a default but it's to be explicit
 
-      cmd_duration = { min_time = 2000; };
+      cmd_duration = {
+        min_time = 2000;
+      };
 
       git_branch.symbol = "🍣 ";
 

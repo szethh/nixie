@@ -1,4 +1,6 @@
-{ pkgs ? import <nixpkgs> { } }:
+{
+  pkgs ? import <nixpkgs> { },
+}:
 
 let
   version = "4.0.8";
@@ -8,7 +10,8 @@ let
     rev = "v${version}";
     sha256 = "sha256-bdn3ovklgAZt1mlYSofEwAjb6j4EAlZGK0ie1AeR9do=";
   };
-in pkgs.buildNpmPackage {
+in
+pkgs.buildNpmPackage {
   name = "quartz";
 
   npmDepsHash = "sha256-H+G9KAn8PXtGM81TpHjNrmfWrORI4e/fwFLZqR+E5Ls=";
@@ -34,8 +37,7 @@ in pkgs.buildNpmPackage {
   '';
 
   meta = with pkgs.lib; {
-    description =
-      "🌱 a fast, batteries-included static-site generator that transforms Markdown content into fully functional websites";
+    description = "🌱 a fast, batteries-included static-site generator that transforms Markdown content into fully functional websites";
     homepage = "https://github.com/jackyzha0/quartz";
     license = licenses.mit;
     maintainers = with maintainers; [ szethh ];

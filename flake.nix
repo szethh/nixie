@@ -5,8 +5,7 @@
 
     # darwin stuff
     # darwin.url = "github:LnL7/nix-darwin";
-    darwin.url =
-      "git+file:///Users/szeth/dev/nix-darwin?ref=dock-persistent-others";
+    darwin.url = "git+file:///Users/szeth/dev/nix-darwin?ref=dock-persistent-others";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     home-manager = {
@@ -30,8 +29,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = { nixpkgs, nixpkgs-unstable, sops-nix, home-manager, darwin, disko
-    , ... }@inputs:
+  outputs =
+    {
+      nixpkgs,
+      nixpkgs-unstable,
+      sops-nix,
+      home-manager,
+      darwin,
+      disko,
+      ...
+    }@inputs:
     let
       systemLinux = "x86_64-linux";
       systemDarwin = "x86_64-darwin";
@@ -44,10 +51,14 @@
         overlays = [ (import ./packages/caddy_plugins.nix) ];
       };
       pkgsDarwin = import nixpkgs { system = systemDarwin; };
-    in {
+    in
+    {
       # nix develop
       devShells.${systemDarwin}.default = pkgsDarwin.mkShell {
-        buildInputs = with pkgsDarwin; [ colmena sops ];
+        buildInputs = with pkgsDarwin; [
+          colmena
+          sops
+        ];
 
         # for some reason sops tries to look for the key in ~/Application Support/sops/age/keys.txt
         # https://github.com/getsops/sops/issues/983
@@ -72,7 +83,9 @@
 
               # Optionally, use home-manager.extraSpecialArgs to pass
               # arguments to home.nix
-              home-manager.extraSpecialArgs = { inherit inputs; };
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+              };
             }
           ];
         };
@@ -81,7 +94,10 @@
       ## BOOTSTRAP ##
       nixosConfigurations.htz = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
-        modules = [ disko.nixosModules.disko ./hosts/htz/bootstrap.nix ];
+        modules = [
+          disko.nixosModules.disko
+          ./hosts/htz/bootstrap.nix
+        ];
       };
 
       # colmena stuff
@@ -89,7 +105,9 @@
         meta = {
           nixpkgs = pkgsLinux;
 
-          nodeNixpkgs = { nixvm = pkgsLinuxUnstable; };
+          nodeNixpkgs = {
+            nixvm = pkgsLinuxUnstable;
+          };
 
           # specialArgs = {
           #   inherit inputs;
@@ -97,7 +115,10 @@
         };
 
         defaults = {
-          imports = [ sops-nix.nixosModules.sops disko.nixosModules.disko ];
+          imports = [
+            sops-nix.nixosModules.sops
+            disko.nixosModules.disko
+          ];
         };
 
         nixie = import ./hosts/nixie;

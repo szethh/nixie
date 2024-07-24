@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   enable = true;
   package = pkgs.vscode; # You can choose 'vscode', 'code', or 'codium'
 
@@ -54,13 +55,14 @@
     "editor.fontSize" = 12;
     "editor.formatOnSave" = true;
     "editor.defaultFormatter" = "esbenp.prettier-vscode";
-    "editor.fontFamily" =
-      "'FiraCode Nerd Font', Menlo, Monaco, 'Courier New', monospace";
+    "editor.fontFamily" = "'FiraCode Nerd Font', Menlo, Monaco, 'Courier New', monospace";
 
     "workbench.colorTheme" = "Default Dark+";
     "workbench.iconTheme" = "material-icon-theme";
     "workbench.editor.labelFormat" = "short";
-    "workbench.editorAssociations" = { "*.pdf" = "latex-workshop-pdf-hook"; };
+    "workbench.editorAssociations" = {
+      "*.pdf" = "latex-workshop-pdf-hook";
+    };
     "diffEditor.ignoreTrimWhitespace" = false;
 
     ### MISC
@@ -73,12 +75,17 @@
     "git.autofetch" = true;
 
     "supermaven.otherWarning" = false;
-    "supermaven.enable" = { "*" = true; };
+    "supermaven.enable" = {
+      "*" = true;
+    };
 
     ### LANGUAGES
 
     "prettier.tabWidth" = 4;
-    "eslint.validate" = [ "javascript" "svelte" ];
+    "eslint.validate" = [
+      "javascript"
+      "svelte"
+    ];
 
     "typescript.updateImportsOnFileMove.enabled" = "always";
     "javascript.updateImportsOnFileMove.enabled" = "always";
@@ -94,14 +101,22 @@
       "editor.tabSize" = 2;
       "enable-ts-plugin" = true;
     };
-    "[rust]" = { "editor.defaultFormatter" = "rust-lang.rust-analyzer"; };
-    "[nix]" = { "editor.defaultFormatter" = "brettm12345.nixfmt-vscode"; };
-    "[yaml]" = { "editor.defaultFormatter" = "redhat.vscode-yaml"; };
+    "[rust]" = {
+      "editor.defaultFormatter" = "rust-lang.rust-analyzer";
+    };
+    "[nix]" = {
+      "editor.defaultFormatter" = "brettm12345.nixfmt-vscode";
+    };
+    "[yaml]" = {
+      "editor.defaultFormatter" = "redhat.vscode-yaml";
+    };
     "[caddyfile]" = {
       "editor.defaultFormatter" = "matthewpi.caddyfile-support";
     };
 
     "redhat.telemetry.enabled" = false;
-    "files.associations" = { "*.j2" = "ansible-jinja"; };
+    "files.associations" = {
+      "*.j2" = "ansible-jinja";
+    };
   };
 }

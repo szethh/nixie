@@ -1,4 +1,5 @@
-{ pkgs, inputs, ... }: {
+{ pkgs, inputs, ... }:
+{
   enable = true;
   package = null;
 
@@ -40,27 +41,27 @@
 
     search.engines = {
       "Bing".metaData.hidden = true;
-      "Google".metaData.alias =
-        "!g"; # builtin engines only support specifying one additional alias
+      "Google".metaData.alias = "!g"; # builtin engines only support specifying one additional alias
       "DuckDuckGo".metaData.alias = "!d";
 
       "Nix Packages" = {
-        urls = [{
-          template = "https://search.nixos.org/packages";
-          params = [
-            {
-              name = "type";
-              value = "packages";
-            }
-            {
-              name = "query";
-              value = "{searchTerms}";
-            }
-          ];
-        }];
+        urls = [
+          {
+            template = "https://search.nixos.org/packages";
+            params = [
+              {
+                name = "type";
+                value = "packages";
+              }
+              {
+                name = "query";
+                value = "{searchTerms}";
+              }
+            ];
+          }
+        ];
 
-        icon =
-          "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+        icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
         definedAliases = [ "!np" ];
       };
     };

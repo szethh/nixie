@@ -1,4 +1,12 @@
-{ modulesPath, lib, name, pkgs, config, disko, ... }:
+{
+  modulesPath,
+  lib,
+  name,
+  pkgs,
+  config,
+  disko,
+  ...
+}:
 
 {
   imports = [
@@ -61,7 +69,6 @@
 
     networkConfig.IPv6AcceptRA = "no";
   };
-  boot.initrd.systemd.network.networks."10-uplink" =
-    config.systemd.network.networks."10-uplink";
+  boot.initrd.systemd.network.networks."10-uplink" = config.systemd.network.networks."10-uplink";
   # networking.firewall.logRefusedConnections = false;
 }

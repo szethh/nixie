@@ -1,13 +1,29 @@
-{ config, pkgs, disko, ... }:
+{
+  config,
+  pkgs,
+  disko,
+  ...
+}:
 
 {
-  imports = [ ./proxmox.nix ../../services/mega-sync.nix ];
+  imports = [
+    ./proxmox.nix
+    ../../services/mega-sync.nix
+  ];
 
   sops.secrets = {
-    PAPERLESS_ADMIN_PASSWORD = { owner = "paperless"; };
-    MEGA_USERNAME = { owner = "mega"; };
-    MEGA_PASSWORD = { owner = "mega"; };
-    MEGA_TOTP_SECRET = { owner = "mega"; };
+    PAPERLESS_ADMIN_PASSWORD = {
+      owner = "paperless";
+    };
+    MEGA_USERNAME = {
+      owner = "mega";
+    };
+    MEGA_PASSWORD = {
+      owner = "mega";
+    };
+    MEGA_TOTP_SECRET = {
+      owner = "mega";
+    };
   };
 
   ### DEPLOYMENT ###
@@ -16,7 +32,11 @@
     buildOnTarget = true;
 
     # https://github.com/zhaofengli/colmena/issues/153
-    keys = { age = { keyFile = "/Users/szeth/.config/sops/age/keys.txt"; }; };
+    keys = {
+      age = {
+        keyFile = "/Users/szeth/.config/sops/age/keys.txt";
+      };
+    };
   };
 
   ### AUDIOBOOKSHELF ###
@@ -58,7 +78,11 @@
       PAPERLESS_URL = "https://paper.int.bnuuy.net";
       PAPERLESS_ALLOWED_HOSTS = "paper.int.bnuuy.net,nixvm";
       #PAPERLESS_CSRF_TRUSTED_ORIGINS=https://*.{{ vault.base_url }};
-      PAPERLESS_OCR_LANGUAGES = [ "eng" "nld" "spa" ];
+      PAPERLESS_OCR_LANGUAGES = [
+        "eng"
+        "nld"
+        "spa"
+      ];
       PAPERLESS_OCR_LANGUAGE = "eng+nld+spa";
       PAPERLESS_FILENAME_FORMAT = "{title}";
       # on the first run, this will create the admin user
@@ -78,11 +102,13 @@
     passwordFile = config.sops.secrets.MEGA_PASSWORD.path;
     totpSecretFile = config.sops.secrets.MEGA_TOTP_SECRET.path;
 
-    syncPaths = [{
-      enable = true;
-      localPath = "/var/lib/paperless-ngx/media/documents/originals";
-      remotePath = "/Documents/papers";
-    }];
+    syncPaths = [
+      {
+        enable = true;
+        localPath = "/var/lib/paperless-ngx/media/documents/originals";
+        remotePath = "/Documents/papers";
+      }
+    ];
   };
 
   # Set ACLs for the mega user to access the paperless documents directory

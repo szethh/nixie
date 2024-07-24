@@ -1,4 +1,9 @@
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   # This value determines the Home Manager release that your configuration is
@@ -39,8 +44,11 @@
   programs.zoxide.enable = true;
 
   programs = {
-    starship = let shellConfig = import ./common/shell.nix { inherit pkgs; };
-    in shellConfig.programs.starship;
+    starship =
+      let
+        shellConfig = import ./common/shell.nix { inherit pkgs; };
+      in
+      shellConfig.programs.starship;
   };
 
   programs.zsh = {
@@ -59,7 +67,11 @@
     enable = true;
     userEmail = "33635766+szethh@users.noreply.github.com";
     userName = "szethh";
-    extraConfig = { init = { defaultBranch = "main"; }; };
+    extraConfig = {
+      init = {
+        defaultBranch = "main";
+      };
+    };
   };
 
   programs.bat.enable = true;
@@ -72,8 +84,7 @@
 
   sops = {
     # does not seem to work
-    age.keyFile =
-      "${config.home.homeDirectory}/.config/sops/age/keys.txt"; # must have no password!
+    age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt"; # must have no password!
     # It's also possible to use a ssh key, but only when it has no password:
     age.sshKeyPaths = [ "${config.home.homeDirectory}/.ssh/id_ed25519" ];
     age.generateKey = true;

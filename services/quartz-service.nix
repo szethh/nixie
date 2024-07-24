@@ -1,9 +1,16 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
-let quartzPkg = import ../packages/quartz.nix { inherit pkgs; };
-in {
+let
+  quartzPkg = import ../packages/quartz.nix { inherit pkgs; };
+in
+{
   options = {
     services.quartz = {
       enable = mkOption {
@@ -52,12 +59,7 @@ in {
       wantedBy = [ "multi-user.target" ];
 
       serviceConfig = {
-        ExecStart =
-          "${quartzPkg}/bin/quartz build --serve --directory ${config.services.quartz.directory} --output ${config.services.quartz.output} --port ${
-            toString config.services.quartz.port
-          } --concurrency ${toString config.services.quartz.concurrency} ${
-            concatStringsSep " " config.services.quartz.extraArgs
-          }";
+        ExecStart = "${quartzPkg}/bin/quartz build --serve --directory ${config.services.quartz.directory} --output ${config.services.quartz.output} --port ${toString config.services.quartz.port} --concurrency ${toString config.services.quartz.concurrency} ${concatStringsSep " " config.services.quartz.extraArgs}";
         Restart = "always";
         RestartSec = 10;
       };

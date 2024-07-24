@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -6,14 +11,14 @@ let
   cfg = config.services.stirling-pdf;
 
   # function to format environment variables
-  formatEnv = envVars:
-    concatStringsSep "\n" (mapAttrsToList (k: v: "${k}=${v}") envVars);
+  formatEnv = envVars: concatStringsSep "\n" (mapAttrsToList (k: v: "${k}=${v}") envVars);
 
   envFileContent = formatEnv cfg.environment;
 
   # this actually creates the .env file
   envFile = pkgs.writeText ".env" envFileContent;
-in {
+in
+{
   options = {
     services.stirling-pdf = {
       enable = mkOption {
@@ -55,10 +60,8 @@ in {
       environment = mkOption {
         type = types.attrsOf types.str;
         default = { };
-        description =
-          "Environment variables to pass to the Stirling PDF service.";
+        description = "Environment variables to pass to the Stirling PDF service.";
       };
-
     };
   };
 
@@ -72,9 +75,7 @@ in {
         # create the .env file before starting the service
         # ExecStartPre = "${envFile}";
 
-        ExecStart = "${cfg.package}/bin/Stirling-PDF ${
-            concatStringsSep " " cfg.extraArgs
-          }";
+        ExecStart = "${cfg.package}/bin/Stirling-PDF ${concatStringsSep " " cfg.extraArgs}";
         ExecStop = "/bin/kill -15 $MAINPID";
 
         Restart = "always";
@@ -90,8 +91,7 @@ in {
       };
     };
 
-    systemd.tmpfiles.rules =
-      [ "d '${cfg.directory}' 0755 ${cfg.user} ${cfg.group} - -" ];
+    systemd.tmpfiles.rules = [ "d '${cfg.directory}' 0755 ${cfg.user} ${cfg.group} - -" ];
 
     users.groups = mkIf (cfg.group == "stirling-pdf") { stirling-pdf = { }; };
 
@@ -106,5 +106,7 @@ in {
     };
   };
 
-  meta = { maintainers = with maintainers; [ szethh ]; };
+  meta = {
+    maintainers = with maintainers; [ szethh ];
+  };
 }

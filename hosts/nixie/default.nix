@@ -1,15 +1,25 @@
-{ modulesPath, lib, name, pkgs, config, ... }:
+{
+  modulesPath,
+  lib,
+  name,
+  pkgs,
+  config,
+  ...
+}:
 
 {
-  imports =
-    lib.optional (builtins.pathExists ./do-userdata.nix) ./do-userdata.nix ++ [
-      (modulesPath + "/virtualisation/digital-ocean-config.nix")
-      ../../common/nixos-config.nix
-    ];
+  imports = lib.optional (builtins.pathExists ./do-userdata.nix) ./do-userdata.nix ++ [
+    (modulesPath + "/virtualisation/digital-ocean-config.nix")
+    ../../common/nixos-config.nix
+  ];
 
   sops.secrets = {
-    CLOUDFLARED_TOKEN = { owner = "argoWeb"; };
-    CF_DNS_TOKEN = { owner = "argoWeb"; };
+    CLOUDFLARED_TOKEN = {
+      owner = "argoWeb";
+    };
+    CF_DNS_TOKEN = {
+      owner = "argoWeb";
+    };
   };
 
   deployment = {
@@ -18,7 +28,11 @@
     buildOnTarget = true;
 
     # https://github.com/zhaofengli/colmena/issues/153
-    keys = { age = { keyFile = "/Users/szeth/.config/sops/age/keys.txt"; }; };
+    keys = {
+      age = {
+        keyFile = "/Users/szeth/.config/sops/age/keys.txt";
+      };
+    };
   };
 
   programs.zsh.enable = true;
@@ -28,7 +42,9 @@
   services.tailscale.enable = true;
 
   # since we are binding caddy to 127.0.0.1 we don't need to open ports :)
-  networking.firewall = { enable = true; };
+  networking.firewall = {
+    enable = true;
+  };
 
   #### SYSTEM ####
   boot.isContainer = false;
@@ -44,7 +60,9 @@
       };
     };
 
-    groups = { argoWeb.members = [ "argoWeb" ]; };
+    groups = {
+      argoWeb.members = [ "argoWeb" ];
+    };
   };
 
   # packages
@@ -64,8 +82,7 @@
     AmbientCapabilities = "cap_net_bind_service";
     CapabilityBoundingSet = "cap_net_bind_service";
     # ExecStart = "${pkgs.caddy}/bin/caddy run --config /etc/caddy/Caddyfile";
-    ExecStartPre =
-      "${pkgs.runtimeShell} -c 'export CF_DNS_TOKEN=$(cat ${config.sops.secrets.CF_DNS_TOKEN.path})'";
+    ExecStartPre = "${pkgs.runtimeShell} -c 'export CF_DNS_TOKEN=$(cat ${config.sops.secrets.CF_DNS_TOKEN.path})'";
   };
   # let caddyWithPlugins = with pkgs; stdenv.mkDerivation { pkgs.callPackage ./packages/caddy_plugins.nix { }; }
   # in {

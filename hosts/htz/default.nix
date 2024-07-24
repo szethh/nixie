@@ -1,4 +1,12 @@
-{ modulesPath, lib, name, pkgs, config, disko, ... }:
+{
+  modulesPath,
+  lib,
+  name,
+  pkgs,
+  config,
+  disko,
+  ...
+}:
 
 {
   imports = [
@@ -8,7 +16,11 @@
     ../../services/stirling-pdf.nix
   ];
 
-  sops.secrets = { GITEA_PASSWORD = { owner = "gitea"; }; };
+  sops.secrets = {
+    GITEA_PASSWORD = {
+      owner = "gitea";
+    };
+  };
 
   deployment = {
     targetHost = "5.9.18.153";
@@ -16,7 +28,11 @@
     buildOnTarget = true;
 
     # https://github.com/zhaofengli/colmena/issues/153
-    keys = { age = { keyFile = "/Users/szeth/.config/sops/age/keys.txt"; }; };
+    keys = {
+      age = {
+        keyFile = "/Users/szeth/.config/sops/age/keys.txt";
+      };
+    };
   };
 
   programs.zsh.enable = true;
@@ -36,14 +52,18 @@
       };
 
       tailscale0 = {
-        allowedTCPPortRanges = [{
-          from = 0;
-          to = 65535;
-        }];
-        allowedUDPPortRanges = [{
-          from = 0;
-          to = 65535;
-        }];
+        allowedTCPPortRanges = [
+          {
+            from = 0;
+            to = 65535;
+          }
+        ];
+        allowedUDPPortRanges = [
+          {
+            from = 0;
+            to = 65535;
+          }
+        ];
       };
     };
   };
@@ -106,5 +126,4 @@
       PORT = "3001";
     };
   };
-
 }

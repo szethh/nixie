@@ -1,4 +1,10 @@
-{ config, lib, pkgs, disko, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  disko,
+  ...
+}:
 
 {
   imports = [ ../../common/nixos-config.nix ];
@@ -34,7 +40,11 @@
     };
 
     loader.timeout = 0;
-    initrd.availableKernelModules = [ "uas" "virtio_blk" "virtio_pci" ];
+    initrd.availableKernelModules = [
+      "uas"
+      "virtio_blk"
+      "virtio_pci"
+    ];
   };
 
   fileSystems."/" = {
@@ -50,12 +60,13 @@
     defaultGateway = "192.168.50.1";
 
     interfaces.eth0 = {
-      ipv4.addresses = [{
-        address = "192.168.50.44";
-        prefixLength = 24;
-      }];
+      ipv4.addresses = [
+        {
+          address = "192.168.50.44";
+          prefixLength = 24;
+        }
+      ];
       useDHCP = false;
     };
   };
-
 }
