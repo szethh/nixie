@@ -1,9 +1,14 @@
 { config, pkgs, disko, ... }:
 
 {
-  imports = [ ./proxmox.nix ];
+  imports = [ ./proxmox.nix ../../services/mega-sync.nix ];
 
-  sops.secrets = { PAPERLESS_ADMIN_PASSWORD = { owner = "paperless"; }; };
+  sops.secrets = {
+    PAPERLESS_ADMIN_PASSWORD = { owner = "paperless"; };
+    MEGA_USERNAME = { owner = "mega"; };
+    MEGA_PASSWORD = { owner = "mega"; };
+    MEGA_TOTP_SECRET = { owner = "mega"; };
+  };
 
   ### DEPLOYMENT ###
   deployment = {
@@ -62,6 +67,32 @@
       # then we can just delete the admin user
       # PAPERLESS_ADMIN_USER = "szeth";
     };
-
   };
+
+  # TODO: megasync
+  services.megacmd = {
+    enable = true;
+    dataDir = "/var/lib/megacmd";
+
+    usernameFile = config.sops.secrets.MEGA_USERNAME.path;
+    passwordFile = config.sops.secrets.MEGA_PASSWORD.path;
+    totpSecretFile = config.sops.secrets.MEGA_TOTP_SECRET.path;
+
+    syncPaths = [{
+      enable = true;
+      localPath = "/var/lib/paperless-ngx/media/documents/originals";
+      remotePath = "/Documents/papers";
+    }];
+  };
+
+  # Set ACLs for the mega user to access the paperless documents directory
+  environment.systemPackages = with pkgs; [ acl ];
+  system.activationScripts.setACLs = {
+    text = ''
+      ${pkgs.acl}/bin/setfacl -R -m u:mega:rwx /var/lib/paperless-ngx/media/documents/originals
+    '';
+  };
+
+  # TODO: borg/borgmatic
+  # TODO: adguardhome
 }
