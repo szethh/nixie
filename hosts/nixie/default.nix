@@ -11,6 +11,7 @@
   imports = lib.optional (builtins.pathExists ./do-userdata.nix) ./do-userdata.nix ++ [
     (modulesPath + "/virtualisation/digital-ocean-config.nix")
     ../../common/nixos-config.nix
+    ../../services/borgir.nix
   ];
 
   sops.secrets = {
@@ -151,4 +152,10 @@
     };
   };
   # }
+
+  services.borgir = {
+    enable = true;
+    repoId = "ddwq6062";
+    paths = [ "/var/lib" ];
+  };
 }

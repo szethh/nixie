@@ -14,6 +14,7 @@
     ../../common/nixos-config.nix
     ../../services/quartz-service.nix
     ../../services/stirling-pdf.nix
+    ../../services/borgir.nix
   ];
 
   sops.secrets = {
@@ -125,5 +126,15 @@
       HOST = "0.0.0.0"; # otherwise it binds to 127.0.0.1
       PORT = "3001";
     };
+  };
+
+  services.borgir = {
+    enable = true;
+    repoId = "parl5yw3";
+    paths = [ "/var/lib" ];
+    # maybe exclude /var/lib/private/uptime-kuma/kuma.db since it's super big for some reason
+    # exclude = [
+    #   "/var/lib/systemd"
+    # ];
   };
 }

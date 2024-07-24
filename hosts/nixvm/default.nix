@@ -9,6 +9,7 @@
   imports = [
     ./proxmox.nix
     ../../services/mega-sync.nix
+    ../../services/borgir.nix
   ];
 
   sops.secrets = {
@@ -23,6 +24,9 @@
     };
     MEGA_TOTP_SECRET = {
       owner = "mega";
+    };
+    BORG_PASSPHRASE = {
+      owner = "root";
     };
   };
 
@@ -119,7 +123,6 @@
     '';
   };
 
-  # TODO: borg/borgmatic
   # TODO: adguardhome
   services.adguardhome = {
     enable = true;
@@ -129,5 +132,23 @@
     settings = {
 
     };
+  };
+
+  services.borgir = {
+    enable = true;
+    repoId = "zwek2hvg";
+    paths = [
+      "/var/lib"
+      "/root/test"
+    ];
+    exclude = [
+      # very large paths
+      "/var/lib/systemd"
+      "/var/lib/paperless-ngx/classification_model.pickle"
+
+      # don't need these yet
+      # "/var/lib/libvirt"
+      # "/var/lib/docker"
+    ];
   };
 }
