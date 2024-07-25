@@ -65,7 +65,8 @@ in
       # also you gotta trust the host: ssh -i /root/borgbackup/ssh_key repoId@repoId.repo.borgbase.com
       environment.BORG_RSH = cfg.BORG_RSH;
       compression = "auto,lzma";
-      startAt = "daily";
+      # every 8 hours
+      startAt = "*-*-* 0/8:00:00";
       prune.keep = {
         within = "1d";
         daily = 7;
