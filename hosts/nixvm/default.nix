@@ -28,7 +28,15 @@
     BORG_PASSPHRASE = {
       owner = "root";
     };
+    CF_DNS_TOKEN = {
+      owner = "caddy";
+    };
   };
+
+  # format secret as env file
+  sops.templates.CF_DNS_TOKEN.content = ''
+    CF_DNS_TOKEN="${config.sops.placeholder.CF_DNS_TOKEN}"
+  '';
 
   ### DEPLOYMENT ###
   deployment = {
@@ -120,20 +128,223 @@
   system.activationScripts.setACLs = {
     text = ''
       ${pkgs.acl}/bin/setfacl -R -m u:mega:rwx /var/lib/paperless-ngx/media/documents/originals
+      # set the default ACL to the folder
+      ${pkgs.acl}/bin/setfacl -dR -m u:mega:rwx /var/lib/paperless-ngx/media/documents/originals
     '';
   };
 
-  # TODO: adguardhome
+  ### ADGUARDHOME ###
   services.adguardhome = {
     enable = true;
     port = 3765;
     openFirewall = true;
+    # don't squash settings set in the ui
+    mutableSettings = true;
     # gotta have this defined for the config to be generated
     settings = {
-
+      filtering = {
+        # redirect int.bnuuy.net to internal dns server
+        rewrites = [
+          {
+            domain = "*.int.bnuuy.net";
+            answer = "192.168.50.44";
+          }
+          {
+            domain = "*.int.bnuuy.net";
+            answer = "100.68.170.95";
+          }
+        ];
+      };
     };
   };
 
+  ### CADDY ###
+  # allow caddy to listen on port 443
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [
+      443
+      80
+    ];
+  };
+
+  systemd.services.caddy.serviceConfig = {
+    AmbientCapabilities = "cap_net_bind_service";
+    CapabilityBoundingSet = "cap_net_bind_service";
+    EnvironmentFile = "${config.sops.templates.CF_DNS_TOKEN.path}";
+  };
+  services.caddy = {
+    enable = true;
+    logDir = "/var/log/caddy";
+    logFormat = ''
+      level DEBUG
+      format json
+      output file ${config.services.caddy.logDir}/access.log
+    '';
+    user = "caddy";
+    group = "caddy";
+    package = pkgs.caddy-cloudflare;
+
+    # the acme_dns line needs the cloudflare module. for this we use xcaddy
+    # the env variable is set above, in systemd.services.caddy.serviceConfig.ExecStartPre
+    globalConfig = ''
+      debug
+
+      acme_dns cloudflare {env.CF_DNS_TOKEN}
+    '';
+
+    virtualHosts = {
+      "spoti.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://kite:8338
+      '';
+
+      "yt.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://kite:8003
+      '';
+
+      "sabnzbd.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://kite:6755
+      '';
+
+      "bookdl.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://kite:8033
+      '';
+
+      "pic.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://kite:2283
+      '';
+
+      "proxmox.int.bnuuy.net".extraConfig = ''
+        reverse_proxy https://pve:8006 {
+          transport http {
+            tls_insecure_skip_verify
+          }
+        }
+      '';
+
+      "paper.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://nixvm:28981
+      '';
+
+      "change.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://kite:5003
+      '';
+
+      "adh.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://nixvm:3765
+      '';
+
+      "pdf.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://htz:8080
+      '';
+
+      "bazarr.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://kite:6767
+      '';
+
+      "prowlarr.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://kite:9696
+      '';
+
+      "radarr.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://kite:7878
+      '';
+
+      "jelly.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://pve:8096
+      '';
+
+      "request.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://pve:5055
+      '';
+
+      "dsm.int.bnuuy.net".extraConfig = ''
+        reverse_proxy https://oreonas:5001 {
+          transport http {
+            tls_insecure_skip_verify
+          }
+        }
+      '';
+
+      "shiori.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://nixvm:8070
+      '';
+
+      "sonarrtv.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://kite:8988
+      '';
+
+      "readarr.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://kite:8787
+      '';
+
+      "lidarr.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://kite:8686
+      '';
+
+      "calibre.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://kite:8083
+      '';
+
+      "translate.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://kite:5050
+      '';
+
+      "home.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://homeassistant:8123
+      '';
+
+      "hci.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://kite:8020
+      '';
+
+      "qbit.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://kite:8090
+      '';
+
+      "uptime.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://htz:3001
+      '';
+
+      "sonarr.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://kite:8989
+      '';
+
+      "docs.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://kite:8000
+      '';
+
+      "plex.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://pve:32400
+      '';
+
+      "pihole.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://pve:8020
+      '';
+
+      "ab.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://nixvm:13378
+      '';
+
+      "rss.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://htz:8036
+      '';
+
+      "file.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://pve:8560
+      '';
+
+      "sync-pve.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://pve:8384
+      '';
+
+      "git.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://htz:3005
+      '';
+    };
+  };
+
+  ### BORG ###
   services.borgir = {
     enable = true;
     repoId = "zwek2hvg";

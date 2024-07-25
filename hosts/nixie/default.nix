@@ -23,6 +23,10 @@
     };
   };
 
+  sops.templates.CF_DNS_TOKEN.content = ''
+    CF_DNS_TOKEN="${config.sops.placeholder.CF_DNS_TOKEN}"
+  '';
+
   deployment = {
     targetHost = "nixie"; # "104.248.200.219";
     targetUser = "root";
@@ -82,8 +86,7 @@
   systemd.services.caddy.serviceConfig = {
     AmbientCapabilities = "cap_net_bind_service";
     CapabilityBoundingSet = "cap_net_bind_service";
-    # ExecStart = "${pkgs.caddy}/bin/caddy run --config /etc/caddy/Caddyfile";
-    ExecStartPre = "${pkgs.runtimeShell} -c 'export CF_DNS_TOKEN=$(cat ${config.sops.secrets.CF_DNS_TOKEN.path})'";
+    EnvironmentFile = "${config.sops.templates.CF_DNS_TOKEN.path}";
   };
   # let caddyWithPlugins = with pkgs; stdenv.mkDerivation { pkgs.callPackage ./packages/caddy_plugins.nix { }; }
   # in {
@@ -101,6 +104,11 @@
     # };
     package = pkgs.caddy-cloudflare;
     logDir = "/var/log/caddy";
+    logFormat = ''
+      level DEBUG
+      format json
+      output file ${config.services.caddy.logDir}/access.log
+    '';
     user = "argoWeb";
     group = "argoWeb";
 
