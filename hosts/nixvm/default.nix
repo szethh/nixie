@@ -147,11 +147,11 @@
         rewrites = [
           {
             domain = "*.int.bnuuy.net";
-            answer = "192.168.50.44";
+            answer = "100.68.170.95";
           }
           {
             domain = "*.int.bnuuy.net";
-            answer = "100.68.170.95";
+            answer = "192.168.50.44";
           }
         ];
       };
@@ -255,7 +255,7 @@
       '';
 
       "request.int.bnuuy.net".extraConfig = ''
-        reverse_proxy http://pve:5055
+        reverse_proxy http://nixvm:5055
       '';
 
       "dsm.int.bnuuy.net".extraConfig = ''
@@ -338,10 +338,24 @@
         reverse_proxy http://pve:8384
       '';
 
+      "sync-htz.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://htz:8384
+      '';
+
       "git.int.bnuuy.net".extraConfig = ''
         reverse_proxy http://htz:3005
       '';
     };
+  };
+
+  ### JELLYSEERR ###
+  # not working yet
+  # the proxy is funky
+  # https://request.int.bnuuy.net/ returns a 502
+  services.jellyseerr = {
+    enable = true;
+    port = 5055;
+    # runs on /var/lib/jellyseerr
   };
 
   ### BORG ###

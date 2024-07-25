@@ -69,6 +69,7 @@
     };
   };
 
+  ### GITEA ###
   services.gitea = {
     enable = true;
     settings = {
@@ -97,6 +98,7 @@
   # environment.systemPackages = with pkgs;
   #   [ (pkgs.callPackage ../../packages/quartz.nix { }) ];
 
+  ### NTFY ###
   services.ntfy-sh = {
     enable = true;
     settings = {
@@ -115,11 +117,13 @@
   #   output = "/home/szeth/quartz/public";
   # };
 
+  ### STIRLING-PDF ###
   services.stirling-pdf = {
     enable = true;
     directory = "/var/lib/stirling-pdf";
   };
 
+  ### UPTIME-KUMA ###
   services.uptime-kuma = {
     enable = true;
     settings = {
@@ -128,6 +132,7 @@
     };
   };
 
+  ### BORG ###
   services.borgir = {
     enable = true;
     repoId = "parl5yw3";
@@ -137,4 +142,68 @@
     #   "/var/lib/systemd"
     # ];
   };
+
+  ### SYNCTHING ###
+  services.syncthing = {
+    enable = true;
+    openDefaultPorts = true;
+    guiAddress = "0.0.0.0:8384";
+
+    settings = {
+      options = {
+        # no usage reporting
+        urAccepted = -1;
+
+        globalAnnounceEnabled = false;
+      };
+
+      # ideally we don't hardcode the password here
+      # gui = {
+      #   user = "szeth";
+      #   password = "password";
+      # };
+
+      devices = {
+        mackie = {
+          id = "DJQMJTH-2MVT7XX-OUIEFR3-3B56OFE-ODY5WI5-RQNHGX7-KTKQZZB-GX3ROQA";
+          autoAcceptFolders = true;
+        };
+
+        bae_phone = {
+          id = "FMJTP3L-S47GWT4-ET5QX2S-44H6DOE-TSFIO2M-AIOUIA4-3OYPG2R-2LZ7LA7";
+          autoAcceptFolders = true;
+        };
+      };
+
+      folders = {
+        "~/test-sync" = {
+          id = "wjruu-pwtpn";
+          devices = [ "mackie" ];
+          type = "sendreceive";
+          label = "Test Sync";
+        };
+
+        "~/bae/dcim" = {
+          id = "yzu5h-7arf3";
+          devices = [ "bae_phone" ];
+          type = "receiveencrypted";
+          label = "DCIM";
+        };
+
+        "~/bae/Opera" = {
+          id = "jhqbs-uuk52";
+          devices = [ "bae_phone" ];
+          type = "receiveencrypted";
+          label = "Opera";
+        };
+      };
+    };
+  };
+
+  ### FRESHRSS ###
+  # TODO: set this up
+  # services.freshrss = {
+  #   enable = true;
+  #   port = 8036;
+  # };
 }
