@@ -74,6 +74,13 @@
           system = systemDarwin;
           modules = [
             ./darwin
+            # i cannot figure this out
+            # but it could be useful for building stuff locally on macos instead of on the remote host
+            # (import ./darwin/darwin-linux-builder.nix {
+            #   inherit nixpkgs;
+            #   pkgs = pkgsDarwin;
+            #   system = systemLinux;
+            # })
             home-manager.darwinModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
