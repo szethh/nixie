@@ -35,10 +35,15 @@
     enable = true;
     onActivation.upgrade = true;
 
+    taps = [ "borgbackup/tap" ];
+
+    brews = [ "borgbackup/tap/borgbackup-fuse" ];
+
     casks = [
       "audacity"
       "balenaetcher"
       "calibre"
+      "db-browser-for-sqlite"
       "discord"
       "docker"
       "drawio"
@@ -49,6 +54,7 @@
       "jellyfin-media-player"
       "keepassxc"
       "libreoffice"
+      "macfuse" # for vorta
       "megasync"
       "microsoft-auto-update"
       "microsoft-excel"
