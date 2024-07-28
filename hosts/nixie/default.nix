@@ -55,6 +55,9 @@
   boot.isContainer = false;
   time.timeZone = "Europe/Amsterdam";
 
+  # we may have low space but we have even less ram
+  boot.tmp.useTmpfs = lib.mkForce false;
+
   users = {
     users = {
       argoWeb = {
@@ -137,11 +140,11 @@
       # '';
 
       "hci.bnuuy.net".extraConfig = ''
-        reverse_proxy http://kite:8020
+        reverse_proxy http://nixvm:8020
       '';
 
       "house.bnuuy.net".extraConfig = ''
-        reverse_proxy http://kite:8333
+        reverse_proxy http://nixvm:8333
       '';
 
       "home.bnuuy.net".extraConfig = ''

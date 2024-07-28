@@ -10,6 +10,8 @@
     ./proxmox.nix
     ../../services/mega-sync.nix
     ../../services/borgir.nix
+    ../../apps/home-tools/service.nix
+    ../../apps/hci-website.nix
   ];
 
   sops.secrets = {
@@ -294,10 +296,6 @@
         reverse_proxy http://homeassistant:8123
       '';
 
-      "hci.int.bnuuy.net".extraConfig = ''
-        reverse_proxy http://kite:8020
-      '';
-
       "qbit.int.bnuuy.net".extraConfig = ''
         reverse_proxy http://kite:8090
       '';
@@ -356,6 +354,11 @@
     enable = true;
     port = 5055;
     # runs on /var/lib/jellyseerr
+  };
+
+  ### HOME-TOOLS ###
+  services.home-tools = {
+    enable = true;
   };
 
   ### BORG ###
