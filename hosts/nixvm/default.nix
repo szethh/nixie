@@ -343,6 +343,10 @@
       "git.int.bnuuy.net".extraConfig = ''
         reverse_proxy http://htz:3005
       '';
+
+      "gpt.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://nixvm:11111
+      '';
     };
   };
 
@@ -359,6 +363,21 @@
   ### HOME-TOOLS ###
   services.home-tools = {
     enable = true;
+  };
+
+  ### OLLAMA ###
+  services.ollama = {
+    enable = true;
+    loadModels = [
+      "llama3.1:8b"
+      "mistral:7b"
+    ];
+  };
+
+  services.open-webui = {
+    enable = true;
+    port = 11111;
+    host = "0.0.0.0";
   };
 
   ### BORG ###

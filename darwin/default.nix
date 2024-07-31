@@ -37,7 +37,10 @@
 
     taps = [ "borgbackup/tap" ];
 
-    brews = [ "borgbackup/tap/borgbackup-fuse" ];
+    brews = [
+      "borgbackup/tap/borgbackup-fuse"
+      "ollama"
+    ];
 
     casks = [
       "audacity"

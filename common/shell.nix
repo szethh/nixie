@@ -5,6 +5,8 @@
     bat
     starship
     docker
+    htop
+    btop
   ];
 
   programs.starship = {
