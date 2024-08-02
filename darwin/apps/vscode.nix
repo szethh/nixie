@@ -113,6 +113,9 @@
     "[caddyfile]" = {
       "editor.defaultFormatter" = "matthewpi.caddyfile-support";
     };
+    "[python]" = {
+      "editor.defaultFormatter" = "ms-python.black-formatter";
+    };
 
     "redhat.telemetry.enabled" = false;
     "files.associations" = {
