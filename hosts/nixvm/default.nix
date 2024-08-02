@@ -392,6 +392,7 @@
       # very large paths
       "/var/lib/systemd"
       "/var/lib/paperless-ngx/classification_model.pickle"
+      "/var/lib/private/ollama" # don't backup ollama models
 
       # don't need these yet
       # "/var/lib/libvirt"
