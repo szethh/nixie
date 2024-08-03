@@ -135,7 +135,24 @@
     '';
   };
 
+  ### DNSMASQ ###
+  services.dnsmasq = {
+    enable = true;
+    resolveLocalQueries = false;
+    settings = {
+      port = 54;
+      address = [
+        "/int.bnuuy.net/192.168.50.44"
+        "/int.bnuuy.net/100.68.170.95"
+      ];
+    };
+  };
+
   ### ADGUARDHOME ###
+  # double check that this gets added to /etc/resolv.conf
+  # otherwise the proxy doesn't work
+  networking.nameservers = [ "100.100.100.100" ];
+  networking.firewall.allowedUDPPorts = [ 53 ];
   services.adguardhome = {
     enable = true;
     port = 3765;
@@ -144,19 +161,31 @@
     mutableSettings = true;
     # gotta have this defined for the config to be generated
     settings = {
-      filtering = {
-        # redirect int.bnuuy.net to internal dns server
-        rewrites = [
-          {
-            domain = "*.int.bnuuy.net";
-            answer = "100.68.170.95";
-          }
-          {
-            domain = "*.int.bnuuy.net";
-            answer = "192.168.50.44";
-          }
+      dns = {
+        private_networks = [
+          "10.0.0.0/8"
+          "172.16.0.0/12"
+          "192.168.50.0/16"
+          # Tailscale
+          "100.64.0.0/10"
         ];
       };
+      # this does not work like pihole/dnsmasq's dns overrides
+      # only the first one is used
+      # we want both, to have a fallback if you are not in lan/tailscale
+      # filtering = {
+      #   # redirect int.bnuuy.net to internal dns server
+      #   rewrites = [
+      #     {
+      #       domain = "*.int.bnuuy.net";
+      #       answer = "100.68.170.95";
+      #     }
+      #     {
+      #       domain = "*.int.bnuuy.net";
+      #       answer = "192.168.50.44";
+      #     }
+      #   ];
+      # };
     };
   };
 
@@ -167,6 +196,7 @@
     allowedTCPPorts = [
       443
       80
+      53 # for adguardhome
     ];
   };
 
