@@ -7,10 +7,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1720779354,
+        "lastModified": 1722711004,
         "narHash": "sha256-cgfuxJj7qGHXMf2oREB4tyzPb5iIGVBuqmBb7znuODk=",
         "ref": "dock-persistent-others",
-        "rev": "ecaa20817b8c498654574824132846a41b9067ad",
+        "rev": "3a948d15d73c635617f104bc2ffeecf6b0388322",
         "revCount": 1637,
         "type": "git",
         "url": "file:///Users/szeth/dev/nix-darwin"
@@ -51,11 +51,11 @@
       },
       "locked": {
         "dir": "pkgs/firefox-addons",
-        "lastModified": 1722069725,
-        "narHash": "sha256-C2Xo1Ysvxny+6YT7bMAHJ2gY8i7/w4E8bZljsx1P+7M=",
+        "lastModified": 1722744193,
+        "narHash": "sha256-KVBIIaPou5PM0jdJerr290baG+vQZRPhT8LD6pYdi3w=",
         "owner": "rycee",
         "repo": "nur-expressions",
-        "rev": "272f590d94f692f3f42bd1e1b08a8edfc3321b51",
+        "rev": "2558f8e8fbcfea2694665d231259e5bb3de5b140",
         "type": "gitlab"
       },
       "original": {

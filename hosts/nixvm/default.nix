@@ -355,7 +355,7 @@
       '';
 
       "rss.int.bnuuy.net".extraConfig = ''
-        reverse_proxy http://htz:8036
+        reverse_proxy http://htz:80
       '';
 
       "file.int.bnuuy.net".extraConfig = ''
@@ -396,13 +396,14 @@
   };
 
   ### OLLAMA ###
-  services.ollama = {
-    enable = true;
-    loadModels = [
-      "llama3.1:8b"
-      "mistral:7b"
-    ];
-  };
+  # we are using ollama on the windows vm instead, it has a gpu
+  # services.ollama = {
+  #   enable = true;
+  #   loadModels = [
+  #     "llama3.1:8b"
+  #     "mistral:7b"
+  #   ];
+  # };
 
   services.open-webui = {
     enable = true;

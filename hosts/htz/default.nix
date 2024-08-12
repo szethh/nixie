@@ -21,6 +21,9 @@
     GITEA_PASSWORD = {
       owner = "gitea";
     };
+    FRESHRSS_PASSWORD = {
+      owner = "freshrss";
+    };
   };
 
   deployment = {
@@ -202,8 +205,11 @@
 
   ### FRESHRSS ###
   # TODO: set this up
-  # services.freshrss = {
-  #   enable = true;
-  #   port = 8036;
-  # };
+  services.freshrss = {
+    enable = true;
+    # port = 8036;
+    defaultUser = "szeth";
+    passwordFile = config.sops.secrets.FRESHRSS_PASSWORD.path;
+    baseUrl = "https://rss.int.bnuuy.net";
+  };
 }
