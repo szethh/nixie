@@ -377,6 +377,10 @@
       "gpt.int.bnuuy.net".extraConfig = ''
         reverse_proxy http://nixvm:11111
       '';
+
+      "jupyter.int.bnuuy.net".extraConfig = ''
+        reverse_proxy http://htz:8888
+      '';
     };
   };
 

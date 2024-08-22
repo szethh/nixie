@@ -24,6 +24,9 @@
     FRESHRSS_PASSWORD = {
       owner = "freshrss";
     };
+    JUPYTER_PASSWORD = {
+      owner = "jupyter";
+    };
   };
 
   deployment = {
@@ -212,4 +215,51 @@
     passwordFile = config.sops.secrets.FRESHRSS_PASSWORD.path;
     baseUrl = "https://rss.int.bnuuy.net";
   };
+
+  ### JUPYTER ###
+  # we basically want: jupyter notebook --ip 0.0.0.0 --port 8888 --no-browser --NotebookApp.token='XXXX'
+  services.jupyter = {
+    enable = true;
+    password = "open('${config.sops.secrets.JUPYTER_PASSWORD.path}', 'r', encoding='utf8').read().strip()";
+    port = 8888;
+    ip = "0.0.0.0";
+
+    command = "jupyter-lab";
+    package = pkgs.python312Packages.jupyterlab;
+
+    kernels = {
+      python3 =
+        let
+          env = (
+            pkgs.python3.withPackages (
+              pythonPackages: with pythonPackages; [
+                ipykernel
+                pandas
+                scikit-learn
+                torch
+              ]
+            )
+          );
+        in
+        {
+          displayName = "Python 3 for ML";
+          argv = [
+            "${env.interpreter}"
+            "-m"
+            "ipykernel_launcher"
+            "-f"
+            "{connection_file}"
+          ];
+          language = "python";
+          # logo32 = "${env.sitePackages}/ipykernel/resources/logo-32x32.png";
+          # logo64 = "${env.sitePackages}/ipykernel/resources/logo-64x64.png";
+          # extraPaths = {
+          #   "cool.txt" = pkgs.writeText "cool" "cool content";
+          # };
+        };
+    };
+  };
+
+  # for some reason the jupyter service does not set the group correctly
+  users.users.jupyter.group = "jupyter";
 }
