@@ -99,8 +99,9 @@
     "[svelte]" = {
       "editor.defaultFormatter" = "svelte.svelte-vscode";
       "editor.tabSize" = 2;
-      "enable-ts-plugin" = true;
+      # "enable-ts-plugin" = true;
     };
+    "svelte.enable-ts-plugin" = true;
     "[rust]" = {
       "editor.defaultFormatter" = "rust-lang.rust-analyzer";
     };

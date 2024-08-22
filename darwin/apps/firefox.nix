@@ -27,6 +27,7 @@
       # search
       browser.search.suggest.enabled = false;
       browser.search.separatePrivateDefault.ui.enabled = true;
+      browser.urlbar.placeholderName.private = "DuckDuckGo";
 
       browser.contentblocking.category = "standard";
       datareporting.healthreport.uploadEnabled = false;

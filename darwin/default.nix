@@ -15,6 +15,7 @@
     htop
     jetbrains-mono # fonts
     nixfmt-rfc-style
+    nodejs_20
     ripgrep
     vim
     zoxide
