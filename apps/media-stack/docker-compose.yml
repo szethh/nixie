@@ -1,0 +1,245 @@
+name: vpn
+services:
+    gluetun:
+        image: qmcgaw/gluetun
+        container_name: gluetun
+        cap_add:
+            - NET_ADMIN
+        devices:
+            - /dev/net/tun:/dev/net/tun
+        ports:
+            - 8888:8888/tcp # HTTP proxy
+            - 8388:8388/tcp # Shadowsocks
+            - 8388:8388/udp # Shadowsocks
+
+            - 8090:8090 # qbit web
+            - 54842:54842 # qbit connect
+            - 54842:54842/udp # qbit connect
+
+            #      - 6789:6789       # nzbget
+            - 6755:8080 # sabnzbd
+        volumes:
+            - ./gluetun:/gluetun
+        env_file: .env
+        environment:
+            - VPN_SERVICE_PROVIDER=protonvpn
+            #- VPN_TYPE=wireguard
+
+            # https://github.com/qdm12/gluetun/issues/1488
+            # add the +pmp to the username for port forwarding
+            - OPENVPN_USER=${PROTON_OVPN_USER}+pmp
+            - OPENVPN_PASSWORD=${PROTON_OVPN_PASS}
+            - VPN_PORT_FORWARDING=on
+
+            # once (#1582)[https://github.com/qdm12/gluetun/issues/1582] works i wont need
+            # to hardcode a server (filter all nl only p2p servers)
+            # - SERVER_HOSTNAMES=node-nl-13.protonvpn.net
+            #- VPN_COUNTRIES=Netherlands
+            - PORT_FORWARD_ONLY=on
+            - SERVER_COUNTRIES=Netherlands
+            - TZ=Europe/Amsterdam
+            # disabling these temporally, if smth fucks up uncomment (idk what they do):
+            # - FIREWALL_OUTBOUND_SUBNETS=172.35.0.0/24
+            # - DNS_KEEP_NAMESERVER=on
+            - LOG_LEVEL=debug
+        restart: unless-stopped
+        networks:
+            - vpn
+
+    qbit:
+        image: ghcr.io/hotio/qbittorrent # lscr.io/linuxserver/qbittorrent:latest
+        container_name: qbit
+        environment:
+            - PUID=${QBIT_PUID}
+            - PGID=${QBIT_PGID}
+            - UMASK=002
+            - TZ=Europe/Amsterdam
+            - WEBUI_PORTS=8090/tcp,8090/udp
+        env_file: .env
+        volumes:
+            - ./qbit:/config
+            - /mnt/storage:/storage
+        healthcheck:
+            test: ["CMD", "curl", "-fSs", "http://localhost:8090"]
+            interval: 1m
+            timeout: 10s
+            retries: 3
+            start_period: 30s
+        command:
+            | # stolen from https://github.com/Subbeh/homelab/blob/782e4f8e13e9ba90c8b1f31801688178986a9b51/ansible/apps/qbittorrent.yml#L11-L19
+            bash -c "set -x &&
+                  while true; do
+                      PORT=$(curl -Ls localhost:8000/v1/openvpn/portforwarded | awk -F'[{}:]' '/port/ { print $3 }') &&
+                      curl -s -b /tmp/.cookies -c /tmp/.cookies --header 'Referer: http://localhost:8080' --data 'username=szeth&password=${QBIT_PASS}' localhost:8080/api/v2/auth/login &&
+                      curl -s -b /tmp/.cookies -c /tmp/.cookies "http://localhost:8080/api/v2/app/setPreferences" -d "'"json={\"listen_port\": "'"$$PORT"'"}"'" &&
+                      curl -b mam_id=$(</config/mam_id) -c /tmp/mam.cookies https://t.myanonamouse.net/json/dynamicSeedbox.php &&
+                      sleep 43200;
+                  done"
+        network_mode: "service:gluetun"
+        restart: unless-stopped
+
+    sabnzbd:
+        image: lscr.io/linuxserver/sabnzbd:latest
+        container_name: sabnzbd
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Europe/Amsterdam
+        volumes:
+            - ./sabnzbd:/config
+            - /mnt/storage:/storage
+        healthcheck:
+            test: ["CMD", "curl", "-fSs", "http://localhost:8080"]
+            interval: 1m
+            timeout: 10s
+            retries: 3
+            start_period: 30s
+        network_mode: "service:gluetun"
+        restart: unless-stopped
+
+    flaresolverr:
+        image: ghcr.io/flaresolverr/flaresolverr:latest
+        container_name: flaresolverr
+        environment:
+            #      - LOG_LEVEL=${LOG_LEVEL:-info}
+            #      - LOG_HTML=${LOG_HTML:-false}
+            #      - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
+            - TZ=Europe/Amsterdam
+        ports:
+            - 8191:8191
+        networks: [vpn]
+        restart: unless-stopped
+
+    prowlarr:
+        image: lscr.io/linuxserver/prowlarr:develop
+        container_name: prowlarr
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Europe/Amsterdam
+        volumes:
+            - ./prowlarr:/config
+            - /mnt/storage:/storage
+        ports:
+            - 9696:9696
+        networks: [vpn]
+        restart: unless-stopped
+
+    sonarr:
+        image: lscr.io/linuxserver/sonarr:develop
+        container_name: sonarr
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Europe/Amsterdam
+        volumes:
+            - ./sonarr:/config
+            - /mnt/storage:/storage
+        ports:
+            - 8989:8989
+        restart: unless-stopped
+        networks: [vpn]
+
+    sonarrtv:
+        image: lscr.io/linuxserver/sonarr:develop
+        container_name: sonarrtv
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Europe/Amsterdam
+        volumes:
+            - ./sonarrtv:/config
+            - /mnt/storage:/storage
+        ports:
+            - 8988:8989
+        restart: unless-stopped
+        networks: [vpn]
+
+    radarr:
+        image: lscr.io/linuxserver/radarr:latest
+        container_name: radarr
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Europe/Amsterdam
+        volumes:
+            - ./radarr:/config
+            - /mnt/storage:/storage
+        ports:
+            - 7878:7878
+        restart: unless-stopped
+        networks: [vpn]
+
+    readarr:
+        image: lscr.io/linuxserver/readarr:develop
+        container_name: readarr
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Europe/Amsterdam
+        volumes:
+            - ./readarr:/config
+            - /mnt/storage:/storage
+        ports:
+            - 8787:8787
+        restart: unless-stopped
+        networks: [vpn]
+
+    bazarr:
+        image: lscr.io/linuxserver/bazarr:latest
+        container_name: bazarr
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Europe/Amsterdam
+        volumes:
+            - ./bazarr:/config
+            - /mnt/storage:/storage
+        ports:
+            - 6767:6767
+        restart: unless-stopped
+        networks: [vpn]
+
+    lidarr:
+        image: lscr.io/linuxserver/lidarr:latest
+        container_name: lidarr
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Europe/Amsterdam
+        volumes:
+            - ./lidarr:/config
+            - /mnt/storage:/storage
+        ports:
+            - 8686:8686
+        restart: unless-stopped
+        networks: [vpn]
+
+    recyclarr:
+        image: ghcr.io/recyclarr/recyclarr
+        container_name: recyclarr
+        user: 1000:1000
+        networks: [vpn]
+        volumes:
+            - ./recyclarr:/config
+        environment:
+            - TZ=Europe/Amsterdam
+
+    mam_updater:
+        container_name: mam_updater
+        build:
+            context: ./mam_updater
+            dockerfile: Dockerfile
+        environment:
+            - CRON_SCHEDULE=0 */2 * * *
+        volumes:
+            - ./mam_updater:/data # add a mam.cookies file in here!
+        restart: unless-stopped
+        network_mode: "service:gluetun"
+
+networks:
+    vpn:
+        name: vpn
+        ipam:
+            config:
+                - subnet: "172.35.0.0/24"

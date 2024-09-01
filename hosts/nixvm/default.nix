@@ -12,6 +12,7 @@
     ../../services/borgir.nix
     ../../apps/home-tools/service.nix
     ../../apps/hci-website.nix
+    ../../apps/media-stack
   ];
 
   sops.secrets = {
@@ -51,6 +52,17 @@
         keyFile = "/Users/szeth/.config/sops/age/keys.txt";
       };
     };
+  };
+
+  ### MOUNT STORAGE ###
+  fileSystems."/mnt/storage" = {
+    # mount storage from pve
+    device = "100.78.187.125:/mnt/storage";
+    options = [
+      "x-systemd.automount"
+      "noauto"
+    ];
+    fsType = "nfs";
   };
 
   ### AUDIOBOOKSHELF ###
@@ -226,16 +238,16 @@
     '';
 
     virtualHosts = {
-      "spoti.int.bnuuy.net".extraConfig = ''
-        reverse_proxy http://kite:8338
-      '';
+      # "spoti.int.bnuuy.net".extraConfig = ''
+      #   reverse_proxy http://kite:8338
+      # '';
 
-      "yt.int.bnuuy.net".extraConfig = ''
-        reverse_proxy http://kite:8003
-      '';
+      # "yt.int.bnuuy.net".extraConfig = ''
+      #   reverse_proxy http://kite:8003
+      # '';
 
       "sabnzbd.int.bnuuy.net".extraConfig = ''
-        reverse_proxy http://kite:6755
+        reverse_proxy http://nixvm:6755
       '';
 
       "bookdl.int.bnuuy.net".extraConfig = ''
@@ -258,9 +270,9 @@
         reverse_proxy http://nixvm:28981
       '';
 
-      "change.int.bnuuy.net".extraConfig = ''
-        reverse_proxy http://kite:5003
-      '';
+      # "change.int.bnuuy.net".extraConfig = ''
+      #   reverse_proxy http://kite:5003
+      # '';
 
       "adh.int.bnuuy.net".extraConfig = ''
         reverse_proxy http://nixvm:3765
@@ -271,15 +283,15 @@
       '';
 
       "bazarr.int.bnuuy.net".extraConfig = ''
-        reverse_proxy http://kite:6767
+        reverse_proxy http://nixvm:6767
       '';
 
       "prowlarr.int.bnuuy.net".extraConfig = ''
-        reverse_proxy http://kite:9696
+        reverse_proxy http://nixvm:9696
       '';
 
       "radarr.int.bnuuy.net".extraConfig = ''
-        reverse_proxy http://kite:7878
+        reverse_proxy http://nixvm:7878
       '';
 
       "jelly.int.bnuuy.net".extraConfig = ''
@@ -303,31 +315,31 @@
       '';
 
       "sonarrtv.int.bnuuy.net".extraConfig = ''
-        reverse_proxy http://kite:8988
+        reverse_proxy http://nixvm:8988
       '';
 
       "readarr.int.bnuuy.net".extraConfig = ''
-        reverse_proxy http://kite:8787
+        reverse_proxy http://nixvm:8787
       '';
 
       "lidarr.int.bnuuy.net".extraConfig = ''
-        reverse_proxy http://kite:8686
+        reverse_proxy http://nixvm:8686
       '';
 
       "calibre.int.bnuuy.net".extraConfig = ''
-        reverse_proxy http://kite:8083
+        reverse_proxy http://nixvm:8083
       '';
 
-      "translate.int.bnuuy.net".extraConfig = ''
-        reverse_proxy http://kite:5050
-      '';
+      # "translate.int.bnuuy.net".extraConfig = ''
+      #   reverse_proxy http://kite:5050
+      # '';
 
       "home.int.bnuuy.net".extraConfig = ''
         reverse_proxy http://homeassistant:8123
       '';
 
       "qbit.int.bnuuy.net".extraConfig = ''
-        reverse_proxy http://kite:8090
+        reverse_proxy http://nixvm:8090
       '';
 
       "uptime.int.bnuuy.net".extraConfig = ''
@@ -335,7 +347,7 @@
       '';
 
       "sonarr.int.bnuuy.net".extraConfig = ''
-        reverse_proxy http://kite:8989
+        reverse_proxy http://nixvm:8989
       '';
 
       "docs.int.bnuuy.net".extraConfig = ''
