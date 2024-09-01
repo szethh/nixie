@@ -41,9 +41,6 @@ in
     PROTON_OVPN_PASS="${config.sops.placeholder.PROTON_OVPN_PASS}"
   '';
 
-  # services.docker.enable = true;
-  virtualisation.docker.enable = true;
-
   users.users.vpn = {
     isNormalUser = true;
     description = "VPN stack user";

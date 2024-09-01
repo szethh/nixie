@@ -1,18 +1,19 @@
 {
   config,
   pkgs,
-  disko,
+  lib,
   ...
 }:
 
 {
   imports = [
     ./proxmox.nix
+    ./containers
     ../../services/mega-sync.nix
     ../../services/borgir.nix
     ../../apps/home-tools/service.nix
     ../../apps/hci-website.nix
-    ../../apps/media-stack
+
   ];
 
   sops.secrets = {
@@ -65,7 +66,27 @@
     fsType = "nfs";
   };
 
+  # special group for nfs
+  # FIXME: THIS DOES NOT WORK YET
+  users.groups.storage.gid = 555;
+  users.users.root.extraGroups = [ "storage" ];
+
+  ### MAP NFS USERS ###
+  # THIS DOES NOT WORK YET
+  # we have to use mkForce since fileSystems already sets this
+  # services.nfs.idmapd.settings = lib.mkForce {
+  #   # this seems sketchy, i'm allowing everyone to access the nfs share
+  #   General = {
+  #     Domain = "bnuuy";
+  #   };
+  #   Mapping = {
+  #     "Nobody-User" = "szeth";
+  #     "Nobody-Group" = "szeth";
+  #   };
+  # };
+
   ### AUDIOBOOKSHELF ###
+  users.users.audiobookshelf.extraGroups = [ "storage" ];
   services.audiobookshelf = {
     enable = true;
     host = "0.0.0.0";
