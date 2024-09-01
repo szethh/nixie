@@ -2,6 +2,7 @@
 # for now, we are simply copying the docker-compose.yml file
 # so we are not using nix to run the containers
 # maybe in the future we can use https://github.com/aksiksi/compose2nix
+# (nix run github:aksiksi/compose2nix -- --root_path=. --env_files=.env --include_env_files)
 # i tried it and it works (it generates a nix file)
 # but i'm a bit scared that it will differ from the compose implementation
 # especially since we rely on docker networking and the containers talking to each other
