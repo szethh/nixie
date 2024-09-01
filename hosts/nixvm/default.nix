@@ -271,12 +271,12 @@
         reverse_proxy http://nixvm:6755
       '';
 
-      "bookdl.int.bnuuy.net".extraConfig = ''
-        reverse_proxy http://kite:8033
-      '';
+      # "bookdl.int.bnuuy.net".extraConfig = ''
+      #   reverse_proxy http://kite:8033
+      # '';
 
       "pic.int.bnuuy.net".extraConfig = ''
-        reverse_proxy http://kite:2283
+        reverse_proxy http://nixvm:2283
       '';
 
       "proxmox.int.bnuuy.net".extraConfig = ''
@@ -371,9 +371,9 @@
         reverse_proxy http://nixvm:8989
       '';
 
-      "docs.int.bnuuy.net".extraConfig = ''
-        reverse_proxy http://kite:8000
-      '';
+      # "docs.int.bnuuy.net".extraConfig = ''
+      #   reverse_proxy http://kite:8000
+      # '';
 
       "plex.int.bnuuy.net".extraConfig = ''
         reverse_proxy http://pve:32400
@@ -461,10 +461,10 @@
       "/var/lib/systemd"
       "/var/lib/paperless-ngx/classification_model.pickle"
       "/var/lib/private/ollama" # don't backup ollama models
+      "/var/lib/docker"
 
       # don't need these yet
       # "/var/lib/libvirt"
-      # "/var/lib/docker"
     ];
   };
 }
