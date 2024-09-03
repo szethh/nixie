@@ -174,10 +174,13 @@
     resolveLocalQueries = false;
     settings = {
       port = 54;
+      server = [ "1.1.1.1" ];
       address = [
         "/int.bnuuy.net/192.168.50.44"
         "/int.bnuuy.net/100.68.170.95"
       ];
+      log-queries = true;
+      log-facility = "/tmp/ad-block.log";
     };
   };
 
