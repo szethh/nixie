@@ -319,7 +319,7 @@
       '';
 
       "jelly.int.bnuuy.net".extraConfig = ''
-        reverse_proxy http://pve:8096
+        reverse_proxy http://nixvm:8096
       '';
 
       "request.int.bnuuy.net".extraConfig = ''
@@ -378,13 +378,13 @@
       #   reverse_proxy http://kite:8000
       # '';
 
-      "plex.int.bnuuy.net".extraConfig = ''
-        reverse_proxy http://pve:32400
-      '';
+      # "plex.int.bnuuy.net".extraConfig = ''
+      #   reverse_proxy http://pve:32400
+      # '';
 
-      "pihole.int.bnuuy.net".extraConfig = ''
-        reverse_proxy http://pve:8020
-      '';
+      # "pihole.int.bnuuy.net".extraConfig = ''
+      #   reverse_proxy http://pve:8020
+      # '';
 
       "ab.int.bnuuy.net".extraConfig = ''
         reverse_proxy http://nixvm:13378
@@ -421,13 +421,16 @@
   };
 
   ### JELLYSEERR ###
-  # not working yet
-  # the proxy is funky
-  # https://request.int.bnuuy.net/ returns a 502
   services.jellyseerr = {
     enable = true;
     port = 5055;
     # runs on /var/lib/jellyseerr
+  };
+
+  ### JELLYFIN ###
+  services.jellyfin = {
+    enable = true;
+    dataDir = "/var/lib/jellyfin";
   };
 
   ### HOME-TOOLS ###
