@@ -42,19 +42,6 @@
     CF_DNS_TOKEN="${config.sops.placeholder.CF_DNS_TOKEN}"
   '';
 
-  ### DEPLOYMENT ###
-  deployment = {
-    targetUser = "root";
-    buildOnTarget = true;
-
-    # https://github.com/zhaofengli/colmena/issues/153
-    keys = {
-      age = {
-        keyFile = "/Users/szeth/.config/sops/age/keys.txt";
-      };
-    };
-  };
-
   ### MOUNT STORAGE ###
   fileSystems."/mnt/storage" = {
     # mount storage from pve

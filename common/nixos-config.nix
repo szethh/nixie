@@ -19,6 +19,24 @@
   sops.defaultSopsFile = ../secrets/secrets.yaml;
   sops.age.keyFile = "${config.deployment.keys.age.destDir}/age";
 
+  ### DEPLOYMENT ###
+  deployment = {
+    targetUser = "root";
+    buildOnTarget = true;
+
+    # https://github.com/zhaofengli/colmena/issues/153
+    keys = {
+      age = {
+        keyFile = "/Users/szeth/.config/sops/age/keys.txt";
+        # if left unspecified, the key will be stored in /run/keys
+        # which is in ramfs, so it gets cleared on reboot
+        # this means that after rebooting, the key is lost and so are the secrets
+        # which means that all our services stop working...
+        destDir = "/etc/keys";
+      };
+    };
+  };
+
   system.autoUpgrade = {
     enable = true;
     allowReboot = true;

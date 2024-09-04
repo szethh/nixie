@@ -27,18 +27,7 @@
     CF_DNS_TOKEN="${config.sops.placeholder.CF_DNS_TOKEN}"
   '';
 
-  deployment = {
-    targetHost = "nixie"; # "104.248.200.219";
-    targetUser = "root";
-    buildOnTarget = true;
-
-    # https://github.com/zhaofengli/colmena/issues/153
-    keys = {
-      age = {
-        keyFile = "/Users/szeth/.config/sops/age/keys.txt";
-      };
-    };
-  };
+  deployment.targetHost = "nixie"; # "104.248.200.219";
 
   programs.zsh.enable = true;
 
