@@ -32,6 +32,7 @@
         # which is in ramfs, so it gets cleared on reboot
         # this means that after rebooting, the key is lost and so are the secrets
         # which means that all our services stop working...
+        # https://github.com/Mic92/sops-nix/issues/149
         destDir = "/etc/keys";
       };
     };
