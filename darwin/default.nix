@@ -1,6 +1,9 @@
 { pkgs, config, ... }:
 
 {
+  imports = [ ./apps/borgmatic.nix ];
+  nixpkgs.overlays = [ (import ../packages/overlays/borgbackup.nix) ];
+
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
