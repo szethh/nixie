@@ -87,16 +87,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1720042825,
-        "narHash": "sha256-A0vrUB6x82/jvf17qPCpxaM+ulJnD8YZwH9Ci0BsAzE=",
-        "owner": "nix-community",
+        "lastModified": 1725550438,
+        "narHash": "sha256-CmWdBoH6qzNiwFCZvTncI8XW8HMGos2/+3yIMLnWG6k=",
+        "owner": "szethh",
         "repo": "home-manager",
-        "rev": "e1391fb22e18a36f57e6999c7a9f966dc80ac073",
+        "rev": "5263484c28689ce093d7ac835434c57eedeed752",
         "type": "github"
       },
       "original": {
-        "owner": "nix-community",
-        "ref": "release-24.05",
+        "owner": "szethh",
+        "ref": "borgmatic-darwin",
         "repo": "home-manager",
         "type": "github"
       }

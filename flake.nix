@@ -9,7 +9,12 @@
     darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
+      # url = "github:nix-community/home-manager/release-24.05";
+      # using a fork for now
+      # due to https://github.com/nix-community/home-manager/issues/5757
+      # borgmatic requires linux but it works fine on darwin too
+      # so removing the assertion
+      url = "github:szethh/home-manager/borgmatic-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -50,6 +55,7 @@
         system = systemLinux;
         overlays = [ (import ./packages/caddy_plugins.nix) ];
       };
+      # the overlays are applied in darwin.nix
       pkgsDarwin = import nixpkgs { system = systemDarwin; };
     in
     {

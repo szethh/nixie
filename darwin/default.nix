@@ -1,7 +1,9 @@
 { pkgs, config, ... }:
 
 {
+  # this enables the borgmatic launchd
   imports = [ ./apps/borgmatic.nix ];
+  # this patches borgbackup to disable some failing tests
   nixpkgs.overlays = [ (import ../packages/overlays/borgbackup.nix) ];
 
   # List packages installed in system profile. To search by name, run:
