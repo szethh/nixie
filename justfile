@@ -10,7 +10,7 @@ install-nix:
 
 # Initialize darwin flake using:
 init-darwin:
-    nix run nix-darwin --extra-experimental-features nix-command --extra-experimental-features flakes -- switch --flake ~/.config/nix
+    nix run nix-darwin --extra-experimental-features nix-command --extra-experimental-features flakes -- switch --flake .
 
 build-darwin:
     darwin-rebuild switch --flake .
