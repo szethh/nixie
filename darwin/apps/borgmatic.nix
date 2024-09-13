@@ -42,7 +42,7 @@ in
 
           <key>ProgramArguments</key>
           <array>
-                  <string>${borgmaticRunScript}/bin/borgmatic-run</string>
+            <string>${borgmaticRunScript}/bin/borgmatic-run</string>
           </array>
 
           <key>StandardOutPath</key>

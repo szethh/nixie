@@ -46,11 +46,12 @@ in
   # environment.
   home.packages = with pkgs; [
     bat
+    borgmatic
+    eza
     nerdfonts # necessary for agnoster theme
     starship
     yt-dlp
     vscode
-    borgmatic
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -66,6 +67,7 @@ in
   ];
 
   programs.zoxide.enable = true;
+  programs.thefuck.enable = true;
 
   programs = {
     starship =
@@ -150,31 +152,16 @@ in
         location = {
           repositories = [ "ssh://f9xvfh0h@f9xvfh0h.repo.borgbase.com/./repo" ];
           patterns = [
-            "R ${config.home.homeDirectory}"
-            "! ${config.home.homeDirectory}/Applications"
-            # only game files are in documents
-            "! ${config.home.homeDirectory}/Documents"
-            "! ${config.home.homeDirectory}/Downloads"
-            "! ${config.home.homeDirectory}/Movies"
-            "! ${config.home.homeDirectory}/Music"
-            "! ${config.home.homeDirectory}/Pictures"
-            "! ${config.home.homeDirectory}/Public"
-
-            # bunch of stuff i don't need
-            "! ${config.home.homeDirectory}/calibre"
-            "! ${config.home.homeDirectory}/miniconda3"
-            "! ${config.home.homeDirectory}/miniconda3"
-            "! ${config.home.homeDirectory}/winshare"
-            "! ${config.home.homeDirectory}/MEGAsync"
-            # honestly don't think we need to backup the entire library
-            "! ${config.home.homeDirectory}/Library"
+            # i figured it's easier to just list what we want to backup
+            # rather than trying to exclude everything
+            "R ${config.home.homeDirectory}/uni"
+            "R ${config.home.homeDirectory}/Zotero"
+            "R ${config.home.homeDirectory}/gallery-dl"
+            "R ${config.home.homeDirectory}/Monero"
             # todo: do i want to backup dev?
             # a lot of stuff is in git already
             # but many projects aren't
-            "! ${config.home.homeDirectory}/dev"
-
-            "! ${config.home.homeDirectory}/.config/nix"
-
+            # "! ${config.home.homeDirectory}/dev"
           ] ++ macOsExclusions;
 
           excludeHomeManagerSymlinks = true;
