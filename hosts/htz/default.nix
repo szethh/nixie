@@ -15,15 +15,16 @@
     ../../services/quartz-service.nix
     ../../services/stirling-pdf.nix
     ../../services/borgir.nix
+    ../../apps/mastodon
   ];
 
   sops.secrets = {
     GITEA_PASSWORD = {
       owner = "gitea";
     };
-    FRESHRSS_PASSWORD = {
-      owner = "freshrss";
-    };
+    # FRESHRSS_PASSWORD = {
+    #   owner = "freshrss";
+    # };
     JUPYTER_PASSWORD = {
       owner = "jupyter";
     };
@@ -197,13 +198,13 @@
 
   ### FRESHRSS ###
   # TODO: set this up
-  services.freshrss = {
-    enable = true;
-    # port = 8036;
-    defaultUser = "szeth";
-    passwordFile = config.sops.secrets.FRESHRSS_PASSWORD.path;
-    baseUrl = "https://rss.int.bnuuy.net";
-  };
+  # services.freshrss = {
+  #   enable = true;
+  #   # port = 8036;
+  #   defaultUser = "szeth";
+  #   passwordFile = config.sops.secrets.FRESHRSS_PASSWORD.path;
+  #   baseUrl = "https://rss.int.bnuuy.net";
+  # };
 
   ### JUPYTER ###
   # we basically want: jupyter notebook --ip 0.0.0.0 --port 8888 --no-browser --NotebookApp.token='XXXX'

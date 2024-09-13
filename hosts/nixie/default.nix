@@ -84,6 +84,7 @@
   # in {
   services.caddy = {
     enable = true;
+    enableReload = false;
 
     # servers.production.services.http.port = 443;
 

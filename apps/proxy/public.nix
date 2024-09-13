@@ -25,6 +25,10 @@
     reverse_proxy http://homeassistant:8123
   '';
 
+  "social.bnuuy.net".extraConfig = ''
+    reverse_proxy http://htz:8056
+  '';
+
   "*.bnuuy.net".extraConfig = ''
     # Check if the subdomain doesn't match int.bnuuy.net
     @notIntSubdomain {
