@@ -10,6 +10,7 @@ final: prev: {
         "test_overwrite"
         "test_can_read_repo_even_if_nonce_is_deleted"
         "test_sparse_file"
+        "XattrTestCase" # this is a class
       ];
   });
 }
