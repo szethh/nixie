@@ -13,12 +13,12 @@
         "rev": "3a948d15d73c635617f104bc2ffeecf6b0388322",
         "revCount": 1637,
         "type": "git",
-        "url": "file:///Users/szeth/dev/nix-darwin"
+        "url": "file:///Users/szeth/dev/forks/nix-darwin"
       },
       "original": {
         "ref": "dock-persistent-others",
         "type": "git",
-        "url": "file:///Users/szeth/dev/nix-darwin"
+        "url": "file:///Users/szeth/dev/forks/nix-darwin"
       }
     },
     "disko": {
@@ -34,12 +34,12 @@
         "rev": "770ff74e9bd45f725d603f64b9023db31e06bdcf",
         "revCount": 922,
         "type": "git",
-        "url": "file:///Users/szeth/dev/disko"
+        "url": "file:///Users/szeth/dev/forks/disko"
       },
       "original": {
         "ref": "fix-mdadm-symlink",
         "type": "git",
-        "url": "file:///Users/szeth/dev/disko"
+        "url": "file:///Users/szeth/dev/forks/disko"
       }
     },
     "firefox-addons": {

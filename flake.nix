@@ -5,7 +5,7 @@
 
     # darwin stuff
     # darwin.url = "github:LnL7/nix-darwin";
-    darwin.url = "git+file:///Users/szeth/dev/nix-darwin?ref=dock-persistent-others";
+    darwin.url = "git+file:///Users/szeth/dev/forks/nix-darwin?ref=dock-persistent-others";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     home-manager = {
@@ -30,7 +30,7 @@
 
     disko = {
       # url = "github:nix-community/disko";
-      url = "git+file:///Users/szeth/dev/disko?ref=fix-mdadm-symlink";
+      url = "git+file:///Users/szeth/dev/forks/disko?ref=fix-mdadm-symlink";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
