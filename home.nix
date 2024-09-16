@@ -158,6 +158,7 @@ in
             "R ${config.home.homeDirectory}/Zotero"
             "R ${config.home.homeDirectory}/gallery-dl"
             "R ${config.home.homeDirectory}/Monero"
+            "R ${config.home.homeDirectory}/MEGAsync"
             # todo: do i want to backup dev?
             # a lot of stuff is in git already
             # but many projects aren't
