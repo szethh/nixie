@@ -30,6 +30,8 @@
   '';
 
   "analytics.bnuuy.net".extraConfig = ''
+    rewrite /js/index.js /js/plausible.js
+
     reverse_proxy http://htz:8005
   '';
 
