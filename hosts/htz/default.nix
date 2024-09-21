@@ -28,6 +28,12 @@
     JUPYTER_PASSWORD = {
       owner = "jupyter";
     };
+    PLAUSIBLE_ADMIN_PASSWORD = {
+      owner = "plausible";
+    };
+    PLAUSIBLE_SECRET_KEY = {
+      owner = "plausible";
+    };
   };
 
   deployment.targetHost = "5.9.18.153";
@@ -252,4 +258,29 @@
 
   # for some reason the jupyter service does not set the group correctly
   users.users.jupyter.group = "jupyter";
+
+  # the plausible service does not create the user
+  users.users.plausible = {
+    isSystemUser = true;
+    group = "plausible";
+    home = "/var/lib/plausible";
+  };
+  users.groups.plausible = { };
+
+  services.plausible = {
+    enable = true;
+    adminUser = {
+      activate = true;
+      name = "szeth";
+      email = "szeth@bnuuy.net";
+      passwordFile = config.sops.secrets.PLAUSIBLE_ADMIN_PASSWORD.path;
+    };
+
+    server = {
+      port = 8005;
+      listenAddress = "0.0.0.0";
+      baseUrl = "https://analytics.bnuuy.net";
+      secretKeybaseFile = config.sops.secrets.PLAUSIBLE_SECRET_KEY.path;
+    };
+  };
 }

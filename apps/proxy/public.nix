@@ -29,6 +29,10 @@
     reverse_proxy http://htz:8056
   '';
 
+  "analytics.bnuuy.net".extraConfig = ''
+    reverse_proxy http://htz:8005
+  '';
+
   "*.bnuuy.net".extraConfig = ''
     # Check if the subdomain doesn't match int.bnuuy.net
     @notIntSubdomain {

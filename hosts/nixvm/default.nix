@@ -230,6 +230,8 @@
   };
   services.caddy = {
     enable = true;
+    enableReload = false;
+
     logDir = "/var/log/caddy";
     logFormat = ''
       level DEBUG
