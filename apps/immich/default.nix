@@ -28,34 +28,12 @@
     REDIS_HOSTNAME=immich_redis
   '';
 
-  users.users.immich = {
-    isNormalUser = true;
-    description = "Immich stack user";
-    # grr we have to manually set the uid
-    # so that sops can write the .env file
-    # otherwise it gets read as null...
-    uid = 1002;
-    home = "/var/lib/immich";
-    createHome = true;
-    shell = pkgs.bashInteractive;
-    extraGroups = [ "docker" ];
-  };
-
-  deployment.keys.immich-compose = {
-    name = "docker-compose.yml";
-    destDir = "/var/lib/immich";
-    keyFile = ./docker-compose.yml;
-    user = config.users.users.immich.name;
-    group = "docker";
-    permissions = "0644";
-  };
-
-  # Copy the .env file to the user's home directory
-  system.activationScripts.copyImmichEnvFile = {
-    text = ''
-      cp ${config.sops.templates.IMMICH_ENV.path} ${config.users.users.immich.home}/.env
-      chown ${config.users.users.immich.name}:${config.users.users.immich.group} ${config.users.users.immich.home}/.env
-      chmod 400 ${config.users.users.immich.home}/.env
-    '';
+  services.immich = {
+    enable = true;
+    host = "0.0.0.0";
+    # openFirewall = true;
+    mediaLocation = "/var/lib/immich";
+    secretsFile = config.sops.templates.IMMICH_ENV.path;
+    database.createDB = true;
   };
 }

@@ -17,7 +17,7 @@
   # '';
 
   "pic.int.bnuuy.net".extraConfig = ''
-    reverse_proxy http://nixvm:2283
+    reverse_proxy http://nixvm:3001
   '';
 
   "proxmox.int.bnuuy.net".extraConfig = ''

@@ -64,6 +64,7 @@
       serviceConfig = {
         Type = "oneshot";
         ExecStart = "${pkgs.systemd}/bin/journalctl --vacuum-time=30d";
+        ExecStartPost = "${pkgs.systemd}/bin/journalctl --vacuum-size=500M";
       };
     };
     timers.clear-log = {

@@ -13,7 +13,6 @@
     ../../services/borgir.nix
     ../../apps/home-tools/service.nix
     ../../apps/hci-website.nix
-
   ];
 
   sops.secrets = {

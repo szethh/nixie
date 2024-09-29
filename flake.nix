@@ -123,9 +123,9 @@
             nixie = pkgsLinuxUnstable; # these two need to be the same, since we are building the same package and the hash needs to be the same
           };
 
-          # specialArgs = {
-          #   inherit inputs;
-          # };
+          specialArgs = {
+            inherit inputs;
+          };
         };
 
         defaults = {
