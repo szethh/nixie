@@ -18,8 +18,6 @@
 
   system.stateVersion = "24.05";
 
-  networking.hostName = name;
-
   boot.swraid.enable = true;
 
   # Specify the devices to install the boot loader to.

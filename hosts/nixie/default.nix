@@ -27,14 +27,6 @@
     CF_DNS_TOKEN="${config.sops.placeholder.CF_DNS_TOKEN}"
   '';
 
-  deployment.targetHost = "nixie"; # "104.248.200.219";
-
-  programs.zsh.enable = true;
-
-  networking.hostName = name;
-
-  services.tailscale.enable = true;
-
   # since we are binding caddy to 127.0.0.1 we don't need to open ports :)
   networking.firewall = {
     enable = true;
@@ -42,7 +34,13 @@
 
   #### SYSTEM ####
   boot.isContainer = false;
-  time.timeZone = "Europe/Amsterdam";
+
+  swapDevices = [
+    {
+      device = "/swapfile"; # Location of the swap file
+      size = 1024; # Size of swap in MB (1GB in this case)
+    }
+  ];
 
   # we may have low space but we have even less ram
   boot.tmp.useTmpfs = lib.mkForce false;
@@ -68,7 +66,6 @@
   #### CLOUDFLARED ARGO TUNNEL ####
   require = [ ../../packages/argo_web.nix ];
 
-  nixpkgs.config.allowUnfree = true;
   services.argoWeb = {
     enable = true;
     tokenPath = config.sops.secrets.CLOUDFLARED_TOKEN.path;

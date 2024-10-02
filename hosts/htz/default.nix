@@ -36,12 +36,6 @@
     };
   };
 
-  deployment.targetHost = "5.9.18.153";
-
-  programs.zsh.enable = true;
-
-  services.tailscale.enable = true;
-
   networking.firewall = {
     enable = true;
 
@@ -70,6 +64,8 @@
       };
     };
   };
+
+  time.timeZone = lib.mkForce "Europe/Berlin";
 
   ### GITEA ###
   services.gitea = {

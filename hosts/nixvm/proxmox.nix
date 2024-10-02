@@ -56,7 +56,6 @@
   services.qemuGuest.enable = true;
 
   networking = {
-    hostName = "nixvm";
     defaultGateway = "192.168.50.1";
 
     interfaces.eth0 = {
