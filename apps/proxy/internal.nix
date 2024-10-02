@@ -28,6 +28,14 @@
     }
   '';
 
+  "pbs.int.bnuuy.net".extraConfig = ''
+    reverse_proxy https://pve:8007 {
+      transport http {
+        tls_insecure_skip_verify
+      }
+    }
+  '';
+
   "paper.int.bnuuy.net".extraConfig = ''
     reverse_proxy http://nixvm:28981
   '';
