@@ -8,6 +8,16 @@
     darwin.url = "git+file:///Users/szeth/dev/forks/nix-darwin?ref=dock-persistent-others";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
 
+    # nixvirt = {
+    #   url = "github:AshleyYakeley/NixVirt/nixpkgs-24.05";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+
+    nixvirt = {
+      url = "https://flakehub.com/f/AshleyYakeley/NixVirt/*.tar.gz";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     home-manager = {
       # url = "github:nix-community/home-manager/release-24.05";
       # using a fork for now
@@ -119,8 +129,7 @@
           nixpkgs = pkgsLinux;
 
           nodeNixpkgs = {
-            nixvm = pkgsLinuxUnstable;
-            nixie = pkgsLinuxUnstable; # these two need to be the same, since we are building the same package and the hash needs to be the same
+            nixvm = pkgsLinuxUnstable; # these two need to be the same, since we are building the same package and the hash needs to be the same
           };
 
           specialArgs = {
@@ -140,6 +149,9 @@
         htz = import ./hosts/htz;
 
         nixvm = import ./hosts/nixvm;
+
+        flat = import ./hosts/flat;
+
         # (inputs // { pkgs-unstable = pkgsLinuxUnstable; });
       };
     };

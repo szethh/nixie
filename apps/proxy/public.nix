@@ -22,7 +22,7 @@
   '';
 
   "home.bnuuy.net".extraConfig = ''
-    reverse_proxy http://homeassistant:8123
+    reverse_proxy http://hass:8123
   '';
 
   "social.bnuuy.net".extraConfig = ''

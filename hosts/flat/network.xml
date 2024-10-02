@@ -1,0 +1,6 @@
+<network>
+  <name>bridged-network</name>
+  <uuid>cc7439ed-36af-4696-a6f2-1d0c4474d87e</uuid>
+  <forward mode="bridge" />
+  <bridge name="br0" />
+</network>

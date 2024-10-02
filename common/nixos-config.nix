@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  name,
+  ...
+}:
 
 {
   imports = [ ./szeth.nix ];
@@ -15,6 +20,8 @@
   boot.tmp.useTmpfs = true;
 
   networking.nameservers = [ "1.1.1.1" ];
+  networking.hostName = name;
+  deployment.targetHost = name;
 
   sops.defaultSopsFile = ../secrets/secrets.yaml;
   sops.age.keyFile = "${config.deployment.keys.age.destDir}/age";
@@ -73,6 +80,8 @@
       timerConfig.OnCalendar = "weekly UTC";
     };
   };
+
+  nixpkgs.config.allowUnfree = true;
 
   users.mutableUsers = false;
   # initialHashedPassword or hashedPassword?
