@@ -30,7 +30,7 @@ in
     connections."qemu:///system" = {
       domains = [
         {
-          definition = ./haos.xml;
+          definition = ./vm/haos.xml;
           #   definition = inputs.nixvirt.lib.domain.writeXML (
           #     inputs.nixvirt.lib.domain.templates.linux {
           #       name = "hass";
@@ -66,7 +66,7 @@ in
       #       #       subnet_byte = 50;
       #       #     }
       #       #   );
-      #       definition = ./network.xml;
+      #       definition = ./vm/network.xml;
       #       active = true;
       #     }
       #   ];
