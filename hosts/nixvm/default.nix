@@ -1,6 +1,8 @@
 {
   config,
   pkgs,
+  pkgsStable,
+  pkgsUnstable,
   lib,
   ...
 }:
@@ -13,6 +15,7 @@
     ../../services/borgir.nix
     ../../apps/home-tools/service.nix
     ../../apps/hci-website.nix
+    ../../apps/immich
   ];
 
   sops.secrets = {
@@ -79,11 +82,13 @@
     port = 13378;
     # relative to /var/lib
     dataDir = "audiobookshelf";
+    package = pkgsUnstable.audiobookshelf;
   };
 
   ### SHIORI ###
   services.shiori = {
     enable = true;
+    package = pkgsUnstable.shiori;
     port = 8070;
   };
 
@@ -100,7 +105,7 @@
   services.paperless = {
     enable = true;
     # default, but to be explicit
-    package = pkgs.paperless-ngx;
+    package = pkgsUnstable.paperless-ngx;
     user = "paperless";
     dataDir = "/var/lib/paperless-ngx";
     port = 28981; # default
@@ -130,6 +135,7 @@
   services.megacmd = {
     enable = true;
     dataDir = "/var/lib/megacmd";
+    package = pkgsUnstable.megacmd;
 
     usernameFile = config.sops.secrets.MEGA_USERNAME.path;
     passwordFile = config.sops.secrets.MEGA_PASSWORD.path;
@@ -178,6 +184,7 @@
   services.adguardhome = {
     enable = true;
     port = 3765;
+    package = pkgsUnstable.adguardhome;
     openFirewall = true;
     # don't squash settings set in the ui
     mutableSettings = true;
@@ -239,7 +246,7 @@
     '';
     user = "caddy";
     group = "caddy";
-    package = pkgs.caddy-cloudflare;
+    package = pkgsStable.caddy-cloudflare;
 
     # the acme_dns line needs the cloudflare module. for this we use xcaddy
     # the env variable is set above, in systemd.services.caddy.serviceConfig.ExecStartPre
@@ -256,6 +263,7 @@
   services.jellyseerr = {
     enable = true;
     port = 5055;
+    package = pkgsUnstable.jellyseerr;
     # runs on /var/lib/jellyseerr
   };
 

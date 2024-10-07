@@ -1,9 +1,6 @@
 { pkgs, ... }:
 {
-  imports = [
-    ../../../apps/media-stack
-    ../../../apps/immich
-  ];
+  imports = [ ../../../apps/media-stack ];
 
   # Runtime
   virtualisation.docker = {

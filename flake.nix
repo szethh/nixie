@@ -134,6 +134,8 @@
 
           specialArgs = {
             inherit inputs;
+            pkgsStable = pkgsLinux;
+            pkgsUnstable = pkgsLinuxUnstable;
           };
         };
 
