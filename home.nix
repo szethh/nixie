@@ -68,6 +68,11 @@ in
 
   programs.zoxide.enable = true;
   programs.thefuck.enable = true;
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true; # see note on other shells below
+    nix-direnv.enable = true;
+  };
 
   programs = {
     starship =
@@ -84,6 +89,7 @@ in
 
     # for some reason these are flipped
     initExtra = ''
+      eval "$(direnv hook zsh)"
       bindkey '^[[Z'   complete-word       # tab          | complete
       bindkey '^I'     autosuggest-accept  # shift + tab  | autosuggest
     '';
