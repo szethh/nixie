@@ -73,6 +73,8 @@ in
     };
   };
 
+  # used this as a guide
+  # https://github.com/Nozzie/kvm-borg-backup/blob/main/kvm-backup.sh
   services.borgbackup.jobs.borgbase = {
     readWritePaths = [ vmImagesPath ];
     # VM SNAPSHOTS
